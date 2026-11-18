@@ -39,6 +39,8 @@ TEAMS = [
     ("TSK9-2026-2274", "Richard Conti", "Goosey", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
     ("TSK9-2026-7199", "Richard Conti", "Southy", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
     ("TSK9-2026-4615", "Ruben Jorge", "Roxy", "NYC Bed Bug Inspections", "NY", "G", "Aug 3, 2026", "Aug 3, 2027"),
+    ("TSK9-2026-6153", "Joseph Bitner", "Jack", "NYC Bed Bug Inspections", "NY", "G", "Aug 3, 2026", "Aug 3, 2027"),
+    ("TSK9-2026-1499", "Colby Slappey", "Luna", "NYC Bed Bug Inspections", "NY", "G", "Aug 3, 2026", "Aug 3, 2027"),
     ("TSK9-2026-4358", "Paul Kelcz", "Bugsy", "No More Pests Control", "NY", "G", "Jul 6, 2026", "Jul 6, 2027"),
     ("TSK9-2026-3581", "Scott Palatnik", "Hunter", "Long Island Bed Bug Inspections", "NY", "G", "Oct 8, 2026", "Oct 8, 2027"),
     ("TSK9-2026-7793", "Glen Wheelock", "Matcha", "M & M Pest Control", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
