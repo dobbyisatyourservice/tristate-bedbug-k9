@@ -135,7 +135,7 @@ def page_home(m):
 <div class="hero-copy">
 <p class="eyebrow"><span>Bed bug scent detection certification<span class="eb-sep"> &middot; </span><span class="nw eb-states">NY &middot; NJ &middot; CT</span></span></p>
 <h1>Certified bed bug K9 teams. Independently verified.</h1>
-<p class="lede">The {P['org']} certifies K9 scent detection teams on one thing: finding live bed bug odor. Every team is tested against one strict, bed-bug-only field standard, run by evaluators who live and work in the region.</p>
+<p class="lede">Independent certification for bed bug detection dogs in New York, New Jersey and Connecticut. Every handler and dog team is tested blind on live bed bugs, and every certified team is listed in a public registry you can check before you hire.</p>
 <div class="cta-row"><a class="btn" href="{L(m,'apply')}">Request an evaluation</a><a class="btn btn-ghost" href="{L(m,'certified')}">Verify a certified team</a></div>
 <div class="trust-row"><span><i class="dot d-ny"></i>Blind field testing</span><span><i class="dot d-nj"></i>Live bed bug hides</span><span><i class="dot d-ct"></i>Renewed every 12 months</span></div>
 </div>
