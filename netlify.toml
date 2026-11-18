@@ -1,3 +1,8 @@
 [build]
   publish = "site"
   command = "python3 build.py"
+
+[[redirects]]
+  from = "/tri-state-bed-bug-k9-council-launches-nyc.html"
+  to = "/tri-state-bed-bug-k9-council-launches.html"
+  status = 301
