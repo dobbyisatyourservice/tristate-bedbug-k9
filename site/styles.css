@@ -246,7 +246,7 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
   .menu-btn{padding:9px 14px;font-size:.85rem;border-radius:999px}
   .scent-strip{font-size:.68rem;letter-spacing:.02em}
   .scent-strip .wrap{padding-block:7px}
-  .scent-strip .wrap>span{display:none}
+  .scent-strip strong{display:none}
   h1{font-size:2.15rem;line-height:1.06}
   h2{font-size:1.55rem}
   .lede{font-size:1.02rem;line-height:1.6}
