@@ -70,10 +70,15 @@ PAGES = [
     ("apply", "applications.html", "Applications"),
     ("certified", "certified-teams.html", "Certified Teams"),
     # ("board", "board.html", "Board"),  # hidden for now; uncomment to bring back (also restore the footer link)
+    ("faq", "faq.html", "FAQ"),
+    ("resources", "resources.html", "Resources"),
     ("contact", "contact.html", "Contact"),
     ("privacy", "privacy.html", "Privacy & cookies"),
+    ("post-verify", "resources-verify-a-bed-bug-dog.html", "How to verify a bed bug K9 team"),
+    ("post-evaluation", "resources-what-happens-at-an-evaluation.html", "What happens at a field evaluation"),
+    ("post-single-odor", "resources-why-bed-bug-only-dogs.html", "Why bed-bug-only dogs"),
 ]
-NAV_HIDE = {"privacy"}
+NAV_HIDE = {"privacy", "post-verify", "post-evaluation", "post-single-odor"}
 
 DESC = {
     "home": "Independent bed bug scent detection certification for K9 teams in New York, New Jersey and Connecticut. Dogs are tested on live bed bug odor only.",
@@ -82,6 +87,11 @@ DESC = {
     "apply": "Request a bed bug scent detection evaluation for your K9 team in New York, New Jersey or Connecticut.",
     "certified": "Verify a K9 team's bed bug scent detection credential. Search certified teams in NY, NJ and CT.",
     "contact": "Contact the Tri-State Bed Bug K9 Council about bed bug scent detection certification.",
+    "faq": "Answers about bed bug K9 certification: field evaluations, pass criteria, fees, credential renewal and verifying a team in NY, NJ and CT.",
+    "resources": "Guides and articles on bed bug scent detection, K9 field evaluations and hiring a certified bed bug dog team.",
+    "post-verify": "How to check that a bed bug K9 team is certified and current before you hire them: team numbers, registry checks and dates.",
+    "post-evaluation": "What to expect at a bed bug K9 field evaluation: hides, distractors, search time, scoring and retests.",
+    "post-single-odor": "Why the Tri-State Bed Bug K9 Council certifies only dogs trained on bed bug odor alone.",
     "privacy": "How the Tri-State Bed Bug K9 Council handles form submissions and cookies.",
 }
 
@@ -115,7 +125,7 @@ def footer(mode):
     return f"""<footer class="site-foot"><div class="wrap foot-grid">
 <div><a class="brand brand-foot" href="{L(mode,'home')}">{LOGO}<span><strong>TRI-STATE</strong><small>Bed Bug K9 Council</small></span></a>
 <p class="muted">Independent bed bug scent detection certification for K9 teams working in New York, New Jersey and Connecticut. Tested on live bed bug odor only.</p></div>
-<div><h4>Council</h4><ul><li><a href="{L(mode,'standards')}">Standards &amp; by-laws</a></li><li><a href="{L(mode,'events')}">Event calendar</a></li></ul></div>
+<div><h4>Council</h4><ul><li><a href="{L(mode,'standards')}">Standards &amp; by-laws</a></li><li><a href="{L(mode,'events')}">Event calendar</a></li><li><a href="{L(mode,'faq')}">FAQ</a></li><li><a href="{L(mode,'resources')}">Resources</a></li></ul></div>
 <div><h4>Teams</h4><ul><li><a href="{L(mode,'apply')}">Request an evaluation</a></li><li><a href="{L(mode,'certified')}">Verify a team</a></li></ul></div>
 <div><h4>Contact</h4><p class="sel">Questions? Use the <a href="{L(mode,'contact')}">contact form</a>.</p><ul><li><a href="{L(mode,'privacy')}">Privacy &amp; cookies</a></li></ul></div>
 </div><div class="wrap foot-base"><span>&copy; {P['year']} {P['org']}. All rights reserved.</span><span>{P['domain']}</span></div></footer>"""
@@ -324,8 +334,84 @@ def page_privacy(m):
 <p class="muted">Last updated November 2026.</p>
 </article></section>"""
 
+
+# ---------------------------------------------------------------- FAQ + resources
+FAQ = [
+    ("What does the Council certify?",
+     "Bed bug scent detection K9 teams in New York, New Jersey and Connecticut. We certify the handler and dog together as a team, on one odor only: live bed bugs."),
+    ("Why do you certify teams instead of dogs?",
+     "A detection dog is only as reliable as the handler reading it. The handler declares the alert, manages the search and calls the result, so the credential belongs to that handler and dog working together. A new handler with the same dog needs a new evaluation."),
+    ("Can a dual-scent dog be certified?",
+     "No. Certified dogs must be trained on bed bugs only. Dogs trained on other target odors, such as termites or narcotics, are not eligible."),
+    ("What happens at a field evaluation?",
+     "Your team searches a building of at least four rooms in 15 minutes. Evaluators place two live bed bug hides (5 to 15 live bugs each) and two distractors out of sight before you arrive. Two evaluators watch every search and hide locations stay secret until it ends."),
+    ("What does it take to pass?",
+     "Your dog must find both live hides, with no more than one false response. An alert on a distractor is an automatic fail."),
+    ("How much does certification cost?",
+     f"The evaluation itself is free. Each certified team pays a {P['fee_reg']} annual registration before test day. There is no travel fee at scheduled evaluation days. If you request an on-site evaluation at your location outside a scheduled date, an evaluator travel fee applies."),
+    ("How long is a credential valid?",
+     "12 months from the date of the field evaluation. To stay listed, teams must pass a new evaluation before the credential expires."),
+    ("What if my team doesn't pass?",
+     "You can retest after a 14-day wait. Appeals about how an evaluation was run can be sent through the contact form."),
+    ("How do I verify a team before I hire them?",
+     "Search the Certified Teams registry by handler, dog or team number. Every current team is listed with its field evaluation date and expiration. If a team isn't listed, its Tri-State K9 credential is not current."),
+    ("Does the Council train dogs or sell inspections?",
+     "No. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
+    ("Which areas do you cover?",
+     "New York, New Jersey and Connecticut, including New York City, Long Island, northern and central New Jersey, and Fairfield and Hartford counties in Connecticut."),
+]
+
+def page_faq(m):
+    items = "".join(f'<details class="faq-item"><summary>{q}</summary><p>{a}</p></details>' for q, a in FAQ)
+    return f"""<section class="wrap page-head"><p class="eyebrow">Help</p><h1>Frequently asked questions</h1>
+<p class="lede">Answers about bed bug scent detection certification, field evaluations, fees and verifying a K9 team.</p></section>
+<section class="wrap section-tight two-col"><div class="faq">{items}</div>
+<aside class="side-list"><h3>Still have a question?</h3><p class="muted">Send it through our contact form and we'll reply within two business days.</p><a class="btn" href="{L(m,'contact')}">Contact us</a><a class="btn btn-ghost" href="{L(m,'apply')}">Request an evaluation</a></aside></section>"""
+
+POSTS = [
+    ("post-verify", "resources-verify-a-bed-bug-dog.html", "How to verify a bed bug K9 team before you hire", "Nov 17, 2026", "For property managers", 4,
+     "A dog's alert can decide whether a building gets treated. Here's how to check that the team at your door is certified and current.",
+     [("Ask for the team number", "Every certified team has a Tri-State K9 team number in the format TSK9-YYYY-NNNN. A legitimate team will share it without hesitation. Write it down along with the handler's name and the dog's name."),
+      ("Check it in the registry", "Search the number, handler or dog on our Certified Teams page. Confirm that the handler and the dog both match. A credential belongs to one handler and one dog together, so a different dog or a different handler is not covered."),
+      ("Look at the dates", "Each listing shows the field evaluation date and the valid-through date. Credentials last 12 months. If the date has passed, or the team isn't listed at all, the credential is not current."),
+      ("Ask how alerts are confirmed", "A good handler will explain how they confirm an alert before recommending treatment, such as a visual inspection of the area the dog indicated. Be cautious of anyone who treats a single unconfirmed alert as proof of an infestation."),
+      ("When in doubt, ask us", "If something doesn't match, or you want to report a concern about a team, use our contact form. We review every report.")]),
+    ("post-evaluation", "resources-what-happens-at-an-evaluation.html", "What happens at a bed bug K9 field evaluation", "Nov 17, 2026", "For handlers", 5,
+     "A step-by-step look at test day, so you and your dog know exactly what to expect.",
+     [("Before you arrive", "Evaluators prepare the building at least 30 minutes ahead. They place two live bed bug hides of 5 to 15 bugs each in separate rooms, and two distractors chosen by the chief evaluator. You never see where anything goes."),
+      ("The briefing", "You'll declare your dog's alert style, passive or active, and confirm the search time. The standard is 15 minutes, adjusted for building size and agreed before you start."),
+      ("The search", "Your team searches at least four rooms. Two evaluators watch every search. When your dog alerts, call it. The dog must alert at the source, and each alert is confirmed by a reward or by your call."),
+      ("Scoring", "To pass, your dog must find both live hides with no more than one false response. An alert on a distractor is an automatic fail, because a dog that alerts on the wrong odor in a test will do it in a client's home."),
+      ("After the test", "Passing teams are added to the public registry with their evaluation date. If you don't pass, you can retest after 14 days.")]),
+    ("post-single-odor", "resources-why-bed-bug-only-dogs.html", "Why we only certify bed-bug-only dogs", "Nov 17, 2026", "Standards", 3,
+     "Some detection dogs are trained on several odors. Here's why the Council certifies dogs trained on bed bugs alone.",
+     [("One odor, one answer", "When a bed-bug-only dog alerts, there is only one thing it can be telling you. A dog trained on several target odors gives the same alert for each of them, so the handler can't be certain which odor the dog found."),
+      ("Clients need certainty", "A bed bug alert can lead to treatment, lost rent, or a hotel room taken out of service. Clients deserve to know the alert means bed bugs, not something else the dog was also trained to find."),
+      ("A clear standard", "Keeping certification to a single odor keeps the test simple and the results comparable. Every certified team in our registry has been tested the same way, on live bed bugs, under the same rules."),
+      ("What this means for you", "If your dog is trained on more than one target odor, it isn't eligible for Tri-State K9 certification. If you're unsure, contact us before you apply and we'll help you check.")]),
+]
+
+def page_resources(m):
+    cards = "".join(f"""<article class="post-card"><p class="post-meta"><span class="tag">{cat}</span><span>{d} &middot; {mins} min read</span></p>
+<h3><a href="{L(m,k)}">{t}</a></h3><p class="muted">{ex}</p><a class="more" href="{L(m,k)}">Read article &rarr;</a></article>""" for k, fn, t, d, cat, mins, ex, _ in POSTS)
+    return f"""<section class="wrap page-head"><p class="eyebrow">Resources</p><h1>Articles &amp; guides</h1>
+<p class="lede">Practical guides on bed bug scent detection, field evaluations and hiring a certified K9 team in New York, New Jersey and Connecticut.</p></section>
+<section class="wrap section-tight"><div class="post-grid">{cards}</div></section>"""
+
+def make_post(post):
+    k, fn, t, d, cat, mins, ex, body = post
+    def build(m):
+        secs = "".join(f"<h3>{h}</h3><p>{p}</p>" for h, p in body)
+        return f"""<section class="wrap page-head"><p class="eyebrow"><a href="{L(m,'resources')}">Resources</a></p><h1>{t}</h1>
+<p class="post-meta"><span class="tag">{cat}</span><span>{d} &middot; {mins} min read &middot; {P['org']}</span></p>
+<p class="lede">{ex}</p></section>
+<section class="wrap section-tight two-col"><article class="doc post-body">{secs}</article>
+<aside class="side-list"><h3>More articles</h3><ul class="doc-list">{''.join(f'<li><a href="{L(m,k2)}">{t2}</a></li>' for k2,_,t2,*_ in POSTS if k2 != k)}</ul><a class="btn btn-ghost" href="{L(m,'resources')}">All resources</a></aside></section>"""
+    return build
+
 BUILDERS = {"home": page_home, "events": page_events, "standards": page_standards, "apply": page_apply,
-            "certified": page_certified, "board": page_board, "contact": page_contact, "privacy": page_privacy}
+            "certified": page_certified, "board": page_board, "contact": page_contact, "privacy": page_privacy,
+            "faq": page_faq, "resources": page_resources, **{p[0]: make_post(p) for p in POSTS}}
 
 CSS = (ROOT / "src" / "styles.css").read_text()
 JS = (ROOT / "src" / "app.js").read_text()

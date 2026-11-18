@@ -291,3 +291,25 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 }
 .nw{white-space:nowrap}
 @media (max-width:640px){.eb-sep,.scent-strip .sep{display:none}.eb-states{display:block;margin-top:5px}}
+/* FAQ + resources */
+.faq{display:grid;gap:10px}
+.faq-item{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 20px}
+.faq-item summary{cursor:pointer;list-style:none;padding:18px 28px 18px 0;font:700 1.05rem/1.35 var(--f-display);position:relative}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:0;top:14px;font:600 1.4rem var(--f-mono);color:var(--ny)}
+.faq-item[open] summary::after{content:"\2013"}
+.faq-item p{margin:0 0 18px;color:var(--ink-2)}
+.side-list .btn{justify-content:center}
+.post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.post-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;display:grid;gap:12px;align-content:start;border-top:4px solid var(--nj)}
+.post-card:nth-child(3n+2){border-top-color:var(--ny)}.post-card:nth-child(3n){border-top-color:var(--ct)}
+.post-card h3{font-size:1.25rem}
+.post-card h3 a{color:var(--ink);text-decoration:none}
+.post-card h3 a:hover{text-decoration:underline}
+.post-card p{margin:0}
+.post-card .more{font-weight:700;text-decoration:none;color:var(--ink);font-size:.92rem}
+.post-meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font:500 .78rem var(--f-mono);color:var(--muted);margin:0}
+.post-body h3{font-size:1.3rem}
+.eyebrow a{color:inherit}
+@media (max-width:900px){.post-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.post-grid{grid-template-columns:1fr}.faq-item{padding:0 16px}.faq-item summary{font-size:.98rem}}
