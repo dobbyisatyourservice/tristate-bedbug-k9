@@ -77,7 +77,7 @@ PAGES = [
     ("resources", "resources.html", "Resources"),
     ("contact", "contact.html", "Contact"),
     ("privacy", "privacy.html", "Privacy & cookies"),
-    ("badges", "badges.html", "Registry badges"),
+    # ("badges", "badges.html", "Registry badges"),  # badges paused; set BADGES_ENABLED = True and uncomment to bring back
 ]
 NAV_HIDE = {"privacy", "badges"}
 
@@ -507,6 +507,7 @@ def make_post(p):
 <aside class="side-list"><h3>Related guides</h3><ul class="doc-list">{''.join(f'<li><a href="{L(m,q["key"])}">{_html.escape(q["title"])}</a></li>' for q in related)}</ul><a class="btn btn-ghost" href="{L(m,'resources')}">All resources</a></aside></section>"""
     return build
 
+BADGES_ENABLED = False
 INDEXNOW_KEY = "7f3c9a2e5b1d4e8fa6c0b9d2e4f1a3c5"
 def cu(fn):
     """clean public URL path (Netlify Pretty URLs serves pages without .html)"""
@@ -598,7 +599,7 @@ def build_site():
     # registry badges: site/badge/<team>.svg (regenerated every deploy, so an expired team's badge can be pulled)
     bd = out / "badge"; bd.mkdir(exist_ok=True)
     for f in bd.glob("*.svg"): f.unlink()
-    for c, h, d, co, s, basis, ev, e in TEAMS:
+    for c, h, d, co, s, basis, ev, e in (TEAMS if BADGES_ENABLED else []):
         (bd / f"{c}.svg").write_text(logo.badge(c, _html.escape(d), _html.escape(h), e))
     # custom 404 (Netlify serves site/404.html automatically)
     import re as _re
