@@ -357,3 +357,46 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .badge-card textarea{width:100%;font:500 .72rem var(--f-mono);margin-top:4px;resize:none;background:var(--tint);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px}
 .badge-card label{font-size:.8rem;color:var(--muted)}
 @media (max-width:640px){.badge-card{grid-template-columns:1fr}.badge-card img{width:100%}}
+
+/* NYC verification landing page */
+.nyc-cta{display:flex;gap:12px;flex-wrap:wrap}
+.nyc-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.nyc-facts > div{padding:20px 22px;border-left:1px solid var(--line)}
+.nyc-facts > div:first-child{border-left:0}
+.nyc-facts dt{font:600 .72rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.nyc-facts dd{margin:0;font-weight:500;line-height:1.45}
+.why{display:grid;gap:14px}
+.why > *{max-width:72ch}
+.why p{color:var(--ink-2);margin:0}
+.boro{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+.boro article{border:1px solid var(--line);border-radius:10px;padding:20px;background:var(--panel);display:grid;gap:6px;align-content:start;scroll-margin-top:90px}
+.boro h3{margin:0;font-size:1.05rem}
+.boro p{color:var(--ink-2);margin:0}
+.nyc-faq{max-width:860px}
+#request{scroll-margin-top:90px}
+.req{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);box-shadow:0 1px 2px rgba(10,20,40,.04),0 24px 48px -28px rgba(10,20,40,.28)}
+.req-side{position:relative;background:var(--ink);color:var(--on-ink);padding:44px 40px;display:flex;flex-direction:column;gap:22px}
+.req-side::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--ny) 0 33.3%,var(--nj) 33.3% 66.6%,var(--ct) 66.6%)}
+.req-side .eyebrow{color:color-mix(in srgb,var(--on-ink) 75%,transparent)}
+.req-side h2{color:var(--on-ink);font-size:clamp(1.5rem,2.4vw,1.95rem);line-height:1.15;margin:0}
+.req-lede{margin:0;color:color-mix(in srgb,var(--on-ink) 80%,transparent);line-height:1.6}
+.req-steps{list-style:none;margin:4px 0 0;padding:0;display:grid}
+.req-steps li{display:flex;gap:16px;padding:14px 0;border-top:1px solid color-mix(in srgb,var(--on-ink) 16%,transparent)}
+.req-steps li:last-child{border-bottom:1px solid color-mix(in srgb,var(--on-ink) 16%,transparent)}
+.req-steps b{font:600 .8rem/1.6 var(--f-mono);color:var(--ny);letter-spacing:.08em}
+.req-steps strong{display:block;font-size:1rem}
+.req-steps span{display:block;font-size:.9rem;color:color-mix(in srgb,var(--on-ink) 70%,transparent)}
+.req-for{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:.95rem}
+.req-for li{display:flex;gap:10px;align-items:flex-start}
+.req-for svg{flex:0 0 18px;width:18px;height:18px;margin-top:2px;color:var(--nj)}
+.req-indep{margin:auto 0 0;font-size:.85rem;padding:12px 14px;border-radius:8px;background:color-mix(in srgb,var(--on-ink) 8%,transparent);color:color-mix(in srgb,var(--on-ink) 82%,transparent)}
+.req-main{padding:40px 44px}
+.req-main .form{background:none;border:0;padding:0;border-radius:0;gap:18px}
+.req-main .form-sub{display:flex;align-items:center;gap:10px;font-size:.78rem;font-family:var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin:14px 0 -2px;padding-top:22px;border-top:1px solid var(--line)}
+.req-main .form-sub.first{margin-top:0;padding-top:0;border-top:0}
+.req-main .form-sub span{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--on-ink);font-size:.72rem;letter-spacing:0}
+.req-main input:focus,.req-main select:focus,.req-main textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--ct) 22%,transparent)}
+.req-submit{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:6px;padding-top:22px;border-top:1px solid var(--line)}
+.req-submit p{margin:0;font-size:.88rem;color:var(--ink-2)}
+@media (max-width:900px){.req{grid-template-columns:1fr}.req-side{padding:36px 24px}.req-main{padding:32px 20px}.nyc-facts{grid-template-columns:1fr 1fr}.nyc-facts > div:nth-child(3){border-left:0}.nyc-facts > div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:560px){.req-submit .btn{width:100%;justify-content:center}.nyc-facts{grid-template-columns:1fr}.nyc-facts > div{border-left:0}.nyc-facts > div + div{border-top:1px solid var(--line)}}

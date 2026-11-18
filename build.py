@@ -72,6 +72,7 @@ PAGES = [
     ("apply", "applications.html", "Applications"),
     ("certified", "certified-teams.html", "Certified Teams"),
     ("verify", "field-verification.html", "Verification"),
+    ("nyc", "nyc-bed-bug-dog-verification.html", "NYC Bed Bug Dog Verification"),
     # ("board", "board.html", "Board"),  # hidden for now; uncomment to bring back (also restore the footer link)
     ("faq", "faq.html", "FAQ"),
     ("resources", "resources.html", "Resources"),
@@ -79,7 +80,8 @@ PAGES = [
     ("privacy", "privacy.html", "Privacy & cookies"),
     # ("badges", "badges.html", "Registry badges"),  # badges paused; set BADGES_ENABLED = True and uncomment to bring back
 ]
-NAV_HIDE = {"privacy", "badges"}
+NAV_HIDE = {"privacy", "badges", "nyc"}
+TITLES = {"nyc": "Bed Bug Dog Verification in NYC | Test Your K9 Team On Site"}
 
 DESC = {
     "home": "Independent bed bug scent detection certification for K9 teams in New York, New Jersey and Connecticut. Dogs are tested on live bed bug odor only.",
@@ -88,6 +90,7 @@ DESC = {
     "apply": "Request a bed bug scent detection evaluation for your K9 team in New York, New Jersey or Connecticut.",
     "certified": "Verify a K9 team's bed bug scent detection credential. Search certified teams in NY, NJ and CT.",
     "verify": "In-field bed bug K9 verification for NYC property managers, hotels and organizations. A Council evaluator tests the dog team you hire, on site at your property.",
+    "nyc": "Verify a bed bug dog team before it inspects your NYC building. An independent evaluator tests the K9 on site in all five boroughs, on live bed bugs.",
     "contact": "Contact the Tri-State Bed Bug K9 Council about bed bug scent detection certification.",
     "faq": "Bed bug K9 FAQ: how to tell if a bed bug dog is legit, certification and verification, plus NYC, NJ and CT landlord and tenant bed bug rules.",
     "resources": "Guides and articles on bed bug scent detection, K9 field evaluations and hiring a certified bed bug dog team.",
@@ -103,7 +106,7 @@ def nav(mode, active):
     for key, fn, label in PAGES:
         if key in NAV_HIDE: continue
         href = f"#{key}" if mode == "preview" else fn
-        cur = ' aria-current="page"' if key == active and mode == "site" else ""
+        cur = ' aria-current="page"' if (key == active or (key == "verify" and active == "nyc")) and mode == "site" else ""
         items.append(f'<li><a href="{href}" data-route="{key}"{cur}>{label}</a></li>')
     home = "#home" if mode == "preview" else "index.html"
     req = "#apply" if mode == "preview" else "applications.html"
@@ -126,7 +129,7 @@ def footer(mode):
 <div><a class="brand brand-foot" href="{L(mode,'home')}">{LOGO}<span><strong>TRI-STATE</strong><small>Bed Bug K9 Council</small></span></a>
 <p class="muted">Independent bed bug scent detection certification for K9 teams working in New York, New Jersey and Connecticut. Tested on live bed bug odor only.</p></div>
 <div><h4>Council</h4><ul><li><a href="{L(mode,'standards')}">Standards &amp; by-laws</a></li><li><a href="{L(mode,'events')}">Event calendar</a></li><li><a href="{L(mode,'faq')}">FAQ</a></li><li><a href="{L(mode,'resources')}">Resources</a></li></ul></div>
-<div><h4>Teams</h4><ul><li><a href="{L(mode,'apply')}">Request an evaluation</a></li><li><a href="{L(mode,'certified')}">Search the registry</a></li><li><a href="{L(mode,'verify')}">Request a field verification</a></li></ul></div>
+<div><h4>Teams</h4><ul><li><a href="{L(mode,'apply')}">Request an evaluation</a></li><li><a href="{L(mode,'certified')}">Search the registry</a></li><li><a href="{L(mode,'verify')}">Request a field verification</a></li><li><a href="{L(mode,'nyc')}">NYC bed bug dog verification</a></li></ul></div>
 <div><h4>Contact</h4><p class="sel">Questions? Use the <a href="{L(mode,'contact')}">contact form</a>.</p><ul><li><a href="{L(mode,'privacy')}">Privacy &amp; cookies</a></li></ul></div>
 </div><div class="wrap foot-base"><span>&copy; {P['year']} {P['org']}. All rights reserved.</span><span>{P['domain']}</span></div></footer>"""
 
@@ -329,20 +332,12 @@ def page_contact(m):
 <aside class="side-list"><h3>How we respond</h3><p class="sel">All inquiries come through this form so every request is logged and routed to the right person.</p><p class="sel">We reply by email, usually within two business days.</p></aside>
 </section>"""
 
-def page_verify(m):
+def verify_form(m):
     attrs = 'name="verification" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"' if m == "site" else 'name="verification"'
     roles = "".join(f"<option>{r}</option>" for r in ["Property manager","Building owner or landlord","Co-op or condo board","Hotel or hospitality","School, university or dorm","Shelter, hospital or public housing","City agency or nonprofit","Other organization"])
     areas = "".join(f"<option>{r}</option>" for r in ["Manhattan","Brooklyn","Queens","The Bronx","Staten Island","New Jersey","Connecticut","Other"])
     reasons = "".join(f"<option>{r}</option>" for r in ["Before approving a team for our buildings","Before signing or renewing a contract","We have doubts about a team's results","Routine check of a current vendor"])
-    return f"""<section class="wrap page-head"><p class="eyebrow">New in New York City</p><h1>In-field K9 verification</h1>
-<p class="lede">Don't take a dog team's word for it. If you're hiring or already working with a bed bug K9 team, a Council evaluator can test that team on site, at the property you want inspected, before you sign a contract or let the dog into your buildings.</p></section>
-<section class="wrap section-tight info-pair">
-<div><h3>1. Request a verification</h3><p>Tell us about your property and the team you're working with. Any team can be verified, whether or not it's listed in our registry.</p></div>
-<div><h3>2. We test the team at your property</h3><p>An independent evaluator sets blind hides of live bed bugs and distractors in sealed containers, out of the handler's sight. The containers are removed after the test.</p></div>
-<div><h3>3. You get a written result</h3><p>You'll know whether the dog found the live bed bug hides and ignored the distractors, using the same pass criteria as our <a href="{L(m,'standards')}">certification standard</a>.</p></div>
-</section>
-<section class="wrap section-tight two-col">
-<form class="form" id="verify-form" {attrs}><input type="hidden" name="form-name" value="verification"><p hidden><label>Leave blank<input name="bot-field"></label></p>
+    return f"""<form class="form" id="verify-form" {attrs}><input type="hidden" name="form-name" value="verification"><p hidden><label>Leave blank<input name="bot-field"></label></p>
 <div class="row2"><label for="v-name">Your name<input id="v-name" name="name" required></label><label for="v-org">Company or property<input id="v-org" name="organization" required></label></div>
 <div class="row2"><label for="v-email">Email<input id="v-email" type="email" name="email" required></label><label for="v-phone">Phone<input id="v-phone" type="tel" name="phone"></label></div>
 <div class="row2"><label for="v-role">You are a<select id="v-role" name="role">{roles}</select></label><label for="v-area">Property location<select id="v-area" name="location">{areas}</select></label></div>
@@ -353,11 +348,99 @@ def page_verify(m):
 <label for="v-why">Why you're requesting it<select id="v-why" name="reason">{reasons}</select></label>
 <label for="v-notes">Details<textarea id="v-notes" name="notes" rows="4" placeholder="Building type, number of units, preferred dates"></textarea></label>
 <button class="btn" type="submit">Request a verification</button>
-<p class="form-msg" role="status" hidden>Thanks. Your verification request was received. We'll reply by email with scheduling and pricing.</p></form>
+<p class="form-msg" role="status" hidden>Thanks. Your verification request was received. We'll reply by email with scheduling and pricing.</p></form>"""
+
+def page_verify(m):
+    return f"""<section class="wrap page-head"><p class="eyebrow">New in New York City</p><h1>In-field K9 verification</h1>
+<p class="lede">Don't take a dog team's word for it. If you're hiring or already working with a bed bug K9 team, a Council evaluator can test that team on site, at the property you want inspected, before you sign a contract or let the dog into your buildings.</p></section>
+<section class="wrap section-tight info-pair">
+<div><h3>1. Request a verification</h3><p>Tell us about your property and the team you're working with. Any team can be verified, whether or not it's listed in our registry.</p></div>
+<div><h3>2. We test the team at your property</h3><p>An independent evaluator sets blind hides of live bed bugs and distractors in sealed containers, out of the handler's sight. The containers are removed after the test.</p></div>
+<div><h3>3. You get a written result</h3><p>You'll know whether the dog found the live bed bug hides and ignored the distractors, using the same pass criteria as our <a href="{L(m,'standards')}">certification standard</a>.</p></div>
+</section>
+<section class="wrap section-tight two-col">
+{verify_form(m)}
 <aside class="side-list"><h3>Who it's for</h3><ul class="check"><li>Property managers and landlords approving K9 vendors</li><li>Co-op and condo boards</li><li>Hotels and hospitality</li><li>Schools, universities, shelters and other NYC organizations</li></ul>
 <h3>Why it matters</h3><p class="sel">Treatment decisions often start with a dog's alert. A team that can't reliably tell live bed bugs from distractors can cost you a needless treatment or a missed infestation.</p>
-<h3>Already listed?</h3><p class="sel">You can check a team's current credential anytime in the <a href="{L(m,'certified')}">public registry</a>. Field verification goes a step further by testing the team at your property.</p></aside>
+<h3>Already listed?</h3><p class="sel">You can check a team's current credential anytime in the <a href="{L(m,'certified')}">public registry</a>. Field verification goes a step further by testing the team at your property.</p>
+<h3>In New York City?</h3><p class="sel">See <a href="{L(m,'nyc')}">bed bug dog verification in NYC</a> for borough-by-borough details and NYC disclosure and Local Law 69 context.</p></aside>
 </section>"""
+
+NYC_BOROS = [
+    ("Manhattan", "Co-op and condo boards approving building-wide K9 vendors, high-rise rentals, and hotels with constant guest turnover. Verify the team before a contract covers hundreds of units."),
+    ("Brooklyn", "Brownstones and rowhouses that share party walls, plus large prewar elevator buildings. Confirm the dog can work older construction before you trust a clean result."),
+    ("Queens", "Garden apartment complexes, multifamily buildings and airport-area hotels. Useful when one K9 vendor covers many buildings across a portfolio."),
+    ("The Bronx", "Large multifamily and prewar walk-up buildings where Local Law 69 filings and disclosure history carry real weight. Verify the team that produces your inspection records."),
+    ("Staten Island", "Smaller multifamily buildings, schools and community facilities. The evaluator comes to your property, so nobody has to travel to check a team."),
+]
+NYC_FAQ = [
+    ("What is bed bug dog verification?",
+     "It's an on-site test of a bed bug detection dog and its handler. An independent Tri-State K9 evaluator hides live bed bugs and distractors in sealed containers at your property, out of the handler's sight, and watches whether the dog finds the live bed bugs and ignores the distractors. You get a written pass or fail result."),
+    ("Who in New York City uses K9 verification?",
+     "Property managers, landlords, co-op and condo boards, hotels, and New York City organizations such as schools, universities, shelters, hospitals and public housing providers. It's most useful before you approve a K9 vendor, before you sign or renew a contract, or when you have doubts about a team's results."),
+    ("Which parts of NYC do you cover?",
+     "All five boroughs: Manhattan, Brooklyn, Queens, the Bronx and Staten Island. The evaluator comes to your building. Verification is also available in New Jersey and Connecticut."),
+    ("Can you verify a team that isn't in your registry?",
+     "Yes. Any bed bug K9 team can be verified at your property, whether or not it's listed in the Tri-State K9 registry. Registry teams are already listed with their last field evaluation date, and verification adds a test in your own building."),
+    ("Are live bed bugs left in my building?",
+     "No. Live bed bugs are kept in sealed containers placed by the evaluator, and every container is removed when the test ends."),
+    ("How long does a verification take?",
+     "The search follows the Council standard: about 15 minutes in an area of at least four rooms. Setup and scheduling are arranged with you in advance."),
+    ("Does verification replace a bed bug inspection?",
+     "No. Verification tests the dog team. The inspection itself is still done by the team you hire. Verification tells you whether that team can reliably find live bed bugs before you rely on its results."),
+    ("How does this relate to NYC bed bug disclosure and Local Law 69?",
+     "New York City landlords give tenants a Bedbug Disclosure Form covering the past year of bed bug history, and owners of multiple dwellings file an annual bed bug report with HPD under Local Law 69. Both depend on accurate inspections. Verification helps make sure the K9 team behind those records is accurate."),
+    ("Is the Council connected to the team being tested?",
+     "No. The Council doesn't train dogs, sell inspections or provide pest control, and evaluators can't test teams they trained or employ."),
+    ("What does verification cost?",
+     "Pricing depends on the property. Request a verification and we'll reply by email with scheduling and pricing."),
+]
+
+def page_nyc(m):
+    chk = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    form = verify_form(m).replace('id="v-', 'id="n-').replace('for="v-', 'for="n-').replace('id="verify-form"', 'id="nyc-verify-form"')
+    form = form.replace('<div class="row2"><label for="n-name">', '<h3 class="form-sub first"><span>1</span>You and your property</h3>\n<div class="row2"><label for="n-name">', 1)
+    form = form.replace('<h3 class="form-sub">The K9 team to verify</h3>', '<h3 class="form-sub"><span>2</span>The K9 team to verify</h3>')
+    form = form.replace('<label for="n-why">', '<h3 class="form-sub"><span>3</span>About the request</h3>\n<label for="n-why">', 1)
+    form = form.replace('<button class="btn" type="submit">Request a verification</button>', '<div class="req-submit"><button class="btn" type="submit">Request a verification</button><p>We reply by email with scheduling and pricing.</p></div>')
+    req = "#request"
+    boros = "".join(f'<article id="{n.lower().replace(" ", "-")}"><h3>Bed bug dog verification in {n}</h3><p>{t}</p></article>' for n, t in NYC_BOROS)
+    faq = "".join(f'<details class="faq-item"{" open" if i == 0 else ""}><summary>{q}</summary><p>{a}</p></details>' for i, (q, a) in enumerate(NYC_FAQ))
+    disc = L(m, "post-nyc-bed-bug-disclosure-laws-tenant-rights"); ll69 = L(m, "post-annual-bed-bug-report-nyc-property-managers")
+    return f"""<section class="wrap page-head"><p class="eyebrow">New York City &middot; All five boroughs</p><h1>Bed bug dog verification in NYC</h1>
+<p class="lede">Before a bed bug K9 team inspects your buildings, have an independent Council evaluator test that team on site, at your property, on live bed bugs. Built for New York City property managers, co-op and condo boards, hotels and city organizations.</p>
+<p class="nyc-cta"><a class="btn" href="{req}">Request a verification</a><a class="btn btn-ghost" href="{L(m,'certified')}">Check the registry</a></p></section>
+
+<section class="wrap section-tight"><dl class="nyc-facts" aria-label="NYC verification at a glance">
+<div><dt>What it is</dt><dd>A blind, on-site test of a bed bug detection dog and handler</dd></div>
+<div><dt>Where</dt><dd>Manhattan, Brooklyn, Queens, the Bronx and Staten Island</dd></div>
+<div><dt>The test</dt><dd>Live bed bugs and distractors in sealed containers, about a 15-minute search</dd></div>
+<div><dt>Your result</dt><dd>Written pass or fail on the published <a href="{L(m,'standards')}">Council standard</a></dd></div>
+</dl></section>
+
+<section class="wrap section-tight why"><p class="eyebrow">Why it matters in New York City</p><h2>Your bed bug records are only as good as the dog</h2>
+<p>New York City landlords give tenants a <a href="{disc}">Bedbug Disclosure Form</a> covering the past year of bed bug history, and owners of multiple dwellings file an <a href="{ll69}">annual bed bug report with HPD</a> under Local Law 69. Those records depend on accurate inspections.</p>
+<p>A false alert can put a clean unit on your disclosure history and trigger a treatment you didn't need. A missed infestation can spread through shared walls and risers before anyone notices. In-field verification confirms that the team you hire can reliably find live bed bugs and ignore distractors, in your building, before you rely on its results.</p></section>
+
+<section class="wrap section-tight"><p class="eyebrow">How it works</p><h2>Three steps to a verified K9 team</h2><div class="info-pair">
+<div><h3>1. Request a verification</h3><p>Tell us about your property and the team you're working with. Any team can be verified, whether or not it's in our <a href="{L(m,'certified')}">registry</a>.</p></div>
+<div><h3>2. We test the team at your property</h3><p>A Council evaluator sets blind hides of live bed bugs and distractors in sealed containers, out of the handler's sight. The containers are removed after the test.</p></div>
+<div><h3>3. You get a written result</h3><p>You'll know whether the dog found the live hides and ignored the distractors, using the same pass criteria as our certification standard.</p></div></div></section>
+
+<section class="wrap section-tight"><p class="eyebrow">Across the five boroughs</p><h2>Verification where your buildings are</h2>
+<div class="boro">{boros}</div></section>
+
+<section class="wrap section-tight"><p class="eyebrow">Common questions</p><h2>NYC bed bug dog verification FAQ</h2>
+<div class="faq nyc-faq">{faq}</div>
+<p class="note">More answers on certification and NY, NJ and CT bed bug law are on the <a href="{L(m,'faq')}">FAQ page</a>. Outside New York City, see <a href="{L(m,'verify')}">in-field verification</a>.</p></section>
+
+<section class="wrap section-tight" id="request"><div class="req">
+<aside class="req-side"><p class="eyebrow">Request a verification</p><h2>Verify your K9 team before you rely on it</h2>
+<p class="req-lede">Tell us about your property and the team you're working with. Any bed bug K9 team can be verified, in any of the five boroughs.</p>
+<ol class="req-steps"><li><b>01</b><div><strong>Send the form</strong><span>Takes about two minutes.</span></div></li><li><b>02</b><div><strong>We schedule on site</strong><span>An evaluator comes to your building.</span></div></li><li><b>03</b><div><strong>Written result</strong><span>Pass or fail, on our published standard.</span></div></li></ol>
+<ul class="req-for"><li>{chk}Property managers and landlords</li><li>{chk}Co-op and condo boards</li><li>{chk}Hotels and hospitality</li><li>{chk}Schools, shelters, hospitals and public housing</li></ul>
+<p class="req-indep">Independent: the Council doesn't train dogs, sell inspections or do pest control.</p></aside>
+<div class="req-main">{form}</div></div></section>"""
 
 def page_badges(m):
     cards = []
@@ -531,6 +614,11 @@ def service_ld(key, url):
         return {"@type": "Service", "@id": url + "#service", "name": "In-field bed bug K9 verification", "serviceType": "Bed bug detection dog verification",
             "description": DESC["verify"], "provider": {"@id": ORG_ID}, "areaServed": nyc, "url": url,
             "audience": {"@type": "Audience", "audienceType": "Property managers, landlords, co-op and condo boards, hotels, schools and New York City organizations"}}
+    if key == "nyc":
+        return {"@type": "Service", "@id": url + "#service", "name": "Bed bug dog verification in New York City", "alternateName": ["NYC bed bug K9 verification", "Bed bug detection dog testing NYC"],
+            "serviceType": "Bed bug detection dog verification", "description": DESC["nyc"], "provider": {"@id": ORG_ID}, "areaServed": nyc, "url": url,
+            "audience": {"@type": "Audience", "audienceType": "New York City property managers, landlords, co-op and condo boards, hotels, schools, shelters, hospitals and public housing providers"},
+            "potentialAction": {"@type": "ReserveAction", "name": "Request a verification", "target": url + "#request"}}
     if key == "apply":
         return {"@type": "Service", "@id": url + "#service", "name": "Bed bug K9 team certification", "serviceType": "Bed bug scent detection dog certification",
             "description": DESC["apply"], "provider": {"@id": ORG_ID}, "url": url,
@@ -548,7 +636,7 @@ def post_ld(p):
         "about": ["Bed bug detection dogs", "K9 certification", "New York City"], "spatialCoverage": "New York City, New Jersey, Connecticut"})
 
 BUILDERS = {"home": page_home, "events": page_events, "standards": page_standards, "apply": page_apply,
-            "certified": page_certified, "board": page_board, "contact": page_contact, "verify": page_verify, "badges": page_badges, "privacy": page_privacy,
+            "certified": page_certified, "board": page_board, "contact": page_contact, "verify": page_verify, "nyc": page_nyc, "badges": page_badges, "privacy": page_privacy,
             "faq": page_faq, "resources": page_resources, **{p["key"]: make_post(p) for p in POSTS}}
 
 CSS = (ROOT / "src" / "styles.css").read_text()
@@ -568,6 +656,7 @@ def build_site():
     (out / "favicon.svg").write_text(logo.standalone_mark())
     for key, fn, label in PAGES:
         title = f"{P['org']} | Bed Bug Scent Detection Certification" if key == "home" else f"{label} | {P['short']}"
+        title = TITLES.get(key, title)
         url = f"https://{P['domain']}/" + cu(fn)
         desc = DESC.get(key, DESC["home"])
         if len(desc) > 160: desc = desc[:157].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
@@ -582,6 +671,15 @@ def build_site():
             graph.append({"@type": "WebSite", "@id": f"https://{P['domain']}/#website", "url": f"https://{P['domain']}/", "name": P["org"], "alternateName": P["short"], "publisher": {"@id": ORG_ID}, "inLanguage": "en-US"})
         else:
             graph.append(crumbs_ld(_pm["title"] if _pm else label, url))
+        if key == "nyc":
+            graph[-1] = {"@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Home", "item": f"https://{P['domain']}/"},
+                {"@type": "ListItem", "position": 2, "name": "Verification", "item": f"https://{P['domain']}/" + cu("field-verification.html")},
+                {"@type": "ListItem", "position": 3, "name": "NYC bed bug dog verification", "item": url}]}
+            graph.append({"@type": "WebPage", "@id": url + "#webpage", "url": url, "name": title, "description": desc, "inLanguage": "en-US",
+                "about": {"@id": url + "#service"}, "publisher": {"@id": ORG_ID}, "isPartOf": {"@id": f"https://{P['domain']}/#website"},
+                "speakable": {"@type": "SpeakableSpecification", "cssSelector": [".page-head h1", ".page-head .lede", ".nyc-facts"]}})
+            graph.append({"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in NYC_FAQ]})
         _svc = service_ld(key, url)
         if _svc: graph.append(_svc)
         ld += '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}) + '</script>'
