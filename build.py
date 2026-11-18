@@ -69,6 +69,7 @@ PAGES = [
     ("standards", "standards.html", "Standards"),
     ("apply", "applications.html", "Applications"),
     ("certified", "certified-teams.html", "Certified Teams"),
+    ("verify", "field-verification.html", "Verification"),
     # ("board", "board.html", "Board"),  # hidden for now; uncomment to bring back (also restore the footer link)
     ("faq", "faq.html", "FAQ"),
     ("resources", "resources.html", "Resources"),
@@ -83,6 +84,7 @@ DESC = {
     "standards": "The bed bug scent detection standard: live bed bug hides, distractors, blind conditions and pass criteria for certified K9 teams.",
     "apply": "Request a bed bug scent detection evaluation for your K9 team in New York, New Jersey or Connecticut.",
     "certified": "Verify a K9 team's bed bug scent detection credential. Search certified teams in NY, NJ and CT.",
+    "verify": "In-field bed bug K9 verification for NYC property managers and businesses. A Council evaluator tests the dog team you hire, on site at your property.",
     "contact": "Contact the Tri-State Bed Bug K9 Council about bed bug scent detection certification.",
     "faq": "Answers about bed bug K9 certification: field evaluations, pass criteria, fees, credential renewal and verifying a team in NY, NJ and CT.",
     "resources": "Guides and articles on bed bug scent detection, K9 field evaluations and hiring a certified bed bug dog team.",
@@ -120,7 +122,7 @@ def footer(mode):
 <div><a class="brand brand-foot" href="{L(mode,'home')}">{LOGO}<span><strong>TRI-STATE</strong><small>Bed Bug K9 Council</small></span></a>
 <p class="muted">Independent bed bug scent detection certification for K9 teams working in New York, New Jersey and Connecticut. Tested on live bed bug odor only.</p></div>
 <div><h4>Council</h4><ul><li><a href="{L(mode,'standards')}">Standards &amp; by-laws</a></li><li><a href="{L(mode,'events')}">Event calendar</a></li><li><a href="{L(mode,'faq')}">FAQ</a></li><li><a href="{L(mode,'resources')}">Resources</a></li></ul></div>
-<div><h4>Teams</h4><ul><li><a href="{L(mode,'apply')}">Request an evaluation</a></li><li><a href="{L(mode,'certified')}">Verify a team</a></li></ul></div>
+<div><h4>Teams</h4><ul><li><a href="{L(mode,'apply')}">Request an evaluation</a></li><li><a href="{L(mode,'certified')}">Search the registry</a></li><li><a href="{L(mode,'verify')}">Request a field verification</a></li></ul></div>
 <div><h4>Contact</h4><p class="sel">Questions? Use the <a href="{L(mode,'contact')}">contact form</a>.</p><ul><li><a href="{L(mode,'privacy')}">Privacy &amp; cookies</a></li></ul></div>
 </div><div class="wrap foot-base"><span>&copy; {P['year']} {P['org']}. All rights reserved.</span><span>{P['domain']}</span></div></footer>"""
 
@@ -316,6 +318,35 @@ def page_contact(m):
 <aside class="side-list"><h3>How we respond</h3><p class="sel">All inquiries come through this form so every request is logged and routed to the right person.</p><p class="sel">We reply by email, usually within two business days.</p></aside>
 </section>"""
 
+def page_verify(m):
+    attrs = 'name="verification" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"' if m == "site" else 'name="verification"'
+    roles = "".join(f"<option>{r}</option>" for r in ["Property manager","Building owner or landlord","Co-op or condo board","Hotel or hospitality","School, university or dorm","Pest control company","Other business"])
+    areas = "".join(f"<option>{r}</option>" for r in ["Manhattan","Brooklyn","Queens","The Bronx","Staten Island","Elsewhere in New York","New Jersey","Connecticut"])
+    reasons = "".join(f"<option>{r}</option>" for r in ["Before approving a team for our buildings","Before signing or renewing a contract","Before subcontracting K9 work","We have doubts about a team's results","Routine check of a current vendor"])
+    return f"""<section class="wrap page-head"><p class="eyebrow">New in New York City</p><h1>In-field K9 verification</h1>
+<p class="lede">Don't take a dog team's word for it. If you're hiring or already working with a bed bug K9 team, a Council evaluator can test that team on site, at the property you want inspected, before you sign a contract or let the dog into your buildings.</p></section>
+<section class="wrap section-tight info-pair">
+<div><h3>1. Request a verification</h3><p>Tell us about your property and the team you're working with. Any team can be verified, whether or not it's listed in our registry.</p></div>
+<div><h3>2. We test the team at your property</h3><p>An independent evaluator sets blind hides of live bed bugs and distractors in sealed containers, out of the handler's sight. The containers are removed after the test.</p></div>
+<div><h3>3. You get a written result</h3><p>You'll know whether the dog found the live bed bug hides and ignored the distractors, using the same pass criteria as our <a href="{L(m,'standards')}">certification standard</a>.</p></div>
+</section>
+<section class="wrap section-tight two-col">
+<form class="form" id="verify-form" {attrs}><input type="hidden" name="form-name" value="verification"><p hidden><label>Leave blank<input name="bot-field"></label></p>
+<div class="row2"><label for="v-name">Your name<input id="v-name" name="name" required></label><label for="v-org">Company or property<input id="v-org" name="organization" required></label></div>
+<div class="row2"><label for="v-email">Email<input id="v-email" type="email" name="email" required></label><label for="v-phone">Phone<input id="v-phone" type="tel" name="phone"></label></div>
+<div class="row2"><label for="v-role">You are a<select id="v-role" name="role">{roles}</select></label><label for="v-area">Property location<select id="v-area" name="location">{areas}</select></label></div>
+<h3 class="form-sub">The K9 team to verify</h3>
+<div class="row2"><label for="v-co">Team's company<input id="v-co" name="team_company" required></label><label for="v-handler">Handler (if known)<input id="v-handler" name="team_handler"></label></div>
+<div class="row2"><label for="v-dog">Dog's name (if known)<input id="v-dog" name="team_dog"></label><label for="v-num">Team # (if they gave one)<input id="v-num" name="team_number" placeholder="TSK9-2026-0000"></label></div>
+<label for="v-why">Why you're requesting it<select id="v-why" name="reason">{reasons}</select></label>
+<label for="v-notes">Details<textarea id="v-notes" name="notes" rows="4" placeholder="Building type, number of units, preferred dates"></textarea></label>
+<button class="btn" type="submit">Request a verification</button>
+<p class="form-msg" role="status" hidden>Thanks. Your verification request was received. We'll reply by email with scheduling and pricing.</p></form>
+<aside class="side-list"><h3>Who it's for</h3><ul class="check"><li>Property managers and landlords approving K9 vendors</li><li>Co-op and condo boards</li><li>Hotels, schools and university housing</li><li>Exterminators who subcontract K9 inspections</li></ul>
+<h3>Why it matters</h3><p class="sel">Treatment decisions often start with a dog's alert. A team that can't reliably tell live bed bugs from distractors can cost you a needless treatment or a missed infestation.</p>
+<h3>Already listed?</h3><p class="sel">You can check a team's current credential anytime in the <a href="{L(m,'certified')}">public registry</a>. Field verification goes a step further by testing the team at your property.</p></aside>
+</section>"""
+
 def page_privacy(m):
     return f"""<section class="wrap page-head"><p class="eyebrow">Legal</p><h1>Privacy &amp; cookies</h1>
 <p class="lede">How the {P['org']} handles information you send us and the small amount of data this website stores.</p></section>
@@ -432,7 +463,7 @@ def post_ld(p):
         "about": ["Bed bug detection dogs", "K9 certification", "New York City"], "spatialCoverage": "New York City, New Jersey, Connecticut"})
 
 BUILDERS = {"home": page_home, "events": page_events, "standards": page_standards, "apply": page_apply,
-            "certified": page_certified, "board": page_board, "contact": page_contact, "privacy": page_privacy,
+            "certified": page_certified, "board": page_board, "contact": page_contact, "verify": page_verify, "privacy": page_privacy,
             "faq": page_faq, "resources": page_resources, **{p["key"]: make_post(p) for p in POSTS}}
 
 CSS = (ROOT / "src" / "styles.css").read_text()
