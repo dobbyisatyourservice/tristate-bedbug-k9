@@ -320,9 +320,9 @@ def page_contact(m):
 
 def page_verify(m):
     attrs = 'name="verification" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"' if m == "site" else 'name="verification"'
-    roles = "".join(f"<option>{r}</option>" for r in ["Property manager","Building owner or landlord","Co-op or condo board","Hotel or hospitality","School, university or dorm","Pest control company","Other business"])
+    roles = "".join(f"<option>{r}</option>" for r in ["Property manager","Building owner or landlord","Co-op or condo board","Hotel or hospitality","School, university or dorm","Shelter, hospital or public housing","City agency or nonprofit","Other organization"])
     areas = "".join(f"<option>{r}</option>" for r in ["Manhattan","Brooklyn","Queens","The Bronx","Staten Island","Elsewhere in New York","New Jersey","Connecticut"])
-    reasons = "".join(f"<option>{r}</option>" for r in ["Before approving a team for our buildings","Before signing or renewing a contract","Before subcontracting K9 work","We have doubts about a team's results","Routine check of a current vendor"])
+    reasons = "".join(f"<option>{r}</option>" for r in ["Before approving a team for our buildings","Before signing or renewing a contract","We have doubts about a team's results","Routine check of a current vendor"])
     return f"""<section class="wrap page-head"><p class="eyebrow">New in New York City</p><h1>In-field K9 verification</h1>
 <p class="lede">Don't take a dog team's word for it. If you're hiring or already working with a bed bug K9 team, a Council evaluator can test that team on site, at the property you want inspected, before you sign a contract or let the dog into your buildings.</p></section>
 <section class="wrap section-tight info-pair">
@@ -342,7 +342,7 @@ def page_verify(m):
 <label for="v-notes">Details<textarea id="v-notes" name="notes" rows="4" placeholder="Building type, number of units, preferred dates"></textarea></label>
 <button class="btn" type="submit">Request a verification</button>
 <p class="form-msg" role="status" hidden>Thanks. Your verification request was received. We'll reply by email with scheduling and pricing.</p></form>
-<aside class="side-list"><h3>Who it's for</h3><ul class="check"><li>Property managers and landlords approving K9 vendors</li><li>Co-op and condo boards</li><li>Hotels, schools and university housing</li><li>Exterminators who subcontract K9 inspections</li></ul>
+<aside class="side-list"><h3>Who it's for</h3><ul class="check"><li>Property managers and landlords approving K9 vendors</li><li>Co-op and condo boards</li><li>Hotels and hospitality</li><li>Schools, universities, shelters and other NYC organizations</li></ul>
 <h3>Why it matters</h3><p class="sel">Treatment decisions often start with a dog's alert. A team that can't reliably tell live bed bugs from distractors can cost you a needless treatment or a missed infestation.</p>
 <h3>Already listed?</h3><p class="sel">You can check a team's current credential anytime in the <a href="{L(m,'certified')}">public registry</a>. Field verification goes a step further by testing the team at your property.</p></aside>
 </section>"""
