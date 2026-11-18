@@ -269,17 +269,17 @@ def site_link(co):
 def page_certified(m):
     chips = "".join(f'<button type="button" class="chip" data-state="{k}" aria-pressed="{"true" if k=="ALL" else "false"}">{"" if k=="ALL" else f"<i class=dot style=background:var(--{k.lower()})></i>"}{lbl}</button>' for k,lbl in [("ALL","All"),("NY","New York"),("NJ","New Jersey"),("CT","Connecticut")])
     if TEAMS:
-        tr = "".join(f'<tr data-state="{s}"><td><code>{c}</code>{'<a class="fy" href="#grandfather" title="Founding-year listing">&dagger;</a>' if b=="G" else ""}</td><td>{h}</td><td>{d}</td><td>{co}</td><td><span class="st"><i class="dot d-{s.lower()}"></i>{s}</span></td><td>{site_link(co)}</td><td class="num">{ev}</td><td class="num">{e}</td></tr>' for c,h,d,co,s,b,ev,e in TEAMS)
+        tr = "".join(f'<tr data-state="{s}"><td><code>{c}</code>{'<a class="fy" href="#grandfather" title="Listed under a prior certification">&dagger;</a>' if b=="G" else ""}</td><td>{h}</td><td>{d}</td><td>{co}</td><td><span class="st"><i class="dot d-{s.lower()}"></i>{s}</span></td><td>{site_link(co)}</td><td class="num">{ev}</td><td class="num">{e}</td></tr>' for c,h,d,co,s,b,ev,e in TEAMS)
         body = f"""<div class="reg-tools"><label class="search" for="team-search">Search by name, dog or team #<input id="team-search" type="search" placeholder="e.g. TSK9-2026-6290"></label><div class="chips">{chips}</div></div>
 <div class="table-scroll"><table id="team-table"><thead><tr><th>Team #</th><th>Handler</th><th>Dog</th><th>Company</th><th>State</th><th>Website</th><th>Field evaluation</th><th>Valid through</th></tr></thead><tbody>{tr}</tbody></table></div>
 <p class="empty" id="team-empty" hidden>No current team matches that search.</p>
-<div class="note-box" id="grandfather"><h3><span class="fy">&dagger;</span> Founding-year policy</h3><p>During the Council's 2026&ndash;27 founding year, teams that already held a current bed bug detection certification from a recognized certifying body, based on a passed blind field evaluation, are listed with their permission. Their listing runs 12 months from that field evaluation. To renew, every team must pass a Tri-State K9 field evaluation directly.</p></div>"""
+<div class="note-box" id="grandfather"><h3><span class="fy">&dagger;</span> Policy</h3><p>Teams that already held a current bed bug detection certification from a recognized certifying body, based on a passed blind field evaluation, are listed. Their listing runs 12 months from that field evaluation. To renew, every team must pass a Tri-State K9 field evaluation directly.</p></div>"""
     else:
         body = f"""<div class="empty-state"><h3>The first certification cycle is underway</h3>
 <p>Teams appear here as soon as they pass a Tri-State K9 field evaluation. If you're a handler in New York, New Jersey or Connecticut, you can book one of the first evaluation slots now.</p>
 <a class="btn" href="{L(m,'apply')}">Request an evaluation</a></div>"""
     return f"""<section class="wrap page-head"><p class="eyebrow">Registry</p><h1>Certified teams</h1>
-<p class="lede">Every K9 team listed is certified in bed bug scent detection and passed a blind field evaluation on live bed bug odor within the last 12 months. See the <a href="#grandfather">founding-year policy</a> below. If a team isn't listed, its Tri-State K9 credential is not current.</p></section>
+<p class="lede">Every K9 team listed is certified in bed bug scent detection and passed a blind field evaluation on live bed bug odor within the last 12 months. See the <a href="#grandfather">policy</a> below. If a team isn't listed, its Tri-State K9 credential is not current.</p></section>
 <section class="wrap section-tight">{body}</section>
 <section class="wrap section info-pair" id="trainers" style="padding-top:24px">
 <div><h3>Approved training facilities</h3><p>Facilities whose curriculum meets Council odor and welfare guidelines. <a href="{L(m,'contact')}">Request the Tri-State list</a> through our contact form.</p></div>
