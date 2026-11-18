@@ -7,7 +7,7 @@ description: The Tri-State Bed Bug K9 Council launches a bed-bug-only certificat
 keywords: Tri-State Bed Bug K9 Council, bed bug dog certification New York City, NYC bed bug K9 certification, certified bed bug detection dogs NYC
 type: press
 ---
-NEW YORK, November 2026. The Tri-State Bed Bug K9 Council today announced the launch of a regional certification program for bed bug scent detection dog teams working in New York, New Jersey and Connecticut. The Council focuses exclusively on bed bug detection and was founded for the tri-state area, with a standard written for the kinds of buildings that define New York City: prewar walk-ups, rent-stabilized multifamily housing, high-turnover hotels and dense student housing.
+NEW YORK. The Tri-State Bed Bug K9 Council has launched a regional certification program for bed bug scent detection dog teams working in New York, New Jersey and Connecticut. The Council focuses exclusively on bed bug detection and was founded for the tri-state area, with a standard written for the kinds of buildings that define New York City: prewar walk-ups, rent-stabilized multifamily housing, high-turnover hotels and dense student housing.
 
 ## Built for the city, not adapted to it
 
