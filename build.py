@@ -56,7 +56,7 @@ COMPANY_SITES = {
     "No More Pests Control": "https://www.nomorepestscontrol.com/",
     "NYC Bed Bug Inspections": "https://nycbedbuginspections.com/",
     "Diamond Dogs": "https://diamonddogsipm.com/",
-    "Harlem River Hounds": "http://www.harlemriverhounds.com/",
+    "Harlem River Hounds": "https://www.harlemriverhounds.com/",
     "Nutmeg Farm LLC": "http://www.nutmegfarm.net",
     "Express Bed Bug Inspection": "https://expressbedbuginspection.com/",
     "A & C Pest Management": "https://www.acpest.com/",
