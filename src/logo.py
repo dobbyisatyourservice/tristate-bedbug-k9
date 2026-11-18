@@ -27,3 +27,25 @@ def standalone(dark=False):
 def standalone_mark():
     m = mark("#0c1b2e", "#ffffff", "#e8641e", "#0f9384", "#4f5fd6", cls="m").replace('<svg class="m" viewBox="0 0 64 64" aria-hidden="true">', '').replace("</svg>", "")
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">{m}</svg>'
+
+
+def badge(team, dog, handler, valid):
+    """Registry badge for a listed team. Fonts fall back to Arial/Helvetica when embedded as an image."""
+    m = mark("#0c1b2e", "#ffffff", "#e8641e", "#0f9384", "#4f5fd6", cls="m").replace('<svg class="m" viewBox="0 0 64 64" aria-hidden="true">', '<g>').replace("</svg>", "</g>")
+    m = m.replace('id="tsk9-shield"', 'id="b-shield"').replace("url(#tsk9-shield)", "url(#b-shield)")
+    F = "Archivo, 'Helvetica Neue', Arial, sans-serif"
+    M = "'IBM Plex Mono', Menlo, Consolas, monospace"
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 180" width="560" height="180" role="img" aria-label="Certified bed bug K9 team {team}, listed in the Tri-State Bed Bug K9 Council registry, valid through {valid}">
+<rect x="1.5" y="1.5" width="557" height="177" rx="16" fill="#ffffff" stroke="#0c1b2e" stroke-width="3"/>
+<rect x="9" y="9" width="542" height="162" rx="10" fill="none" stroke="#0c1b2e" stroke-opacity=".16" stroke-width="1"/>
+<circle cx="92" cy="90" r="64" fill="#0c1b2e"/>
+<circle cx="92" cy="90" r="57" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-width="1"/>
+<g transform="translate(58 55) scale(1.06)">{m.replace('fill="#0c1b2e"/>', 'fill="#ffffff"/>', 1).replace('fill="#ffffff"/><path d="M38.5', 'fill="#0c1b2e"/><path d="M38.5', 1)}</g>
+<text x="182" y="42" font-family="{M}" font-size="12" font-weight="600" letter-spacing="2.4" fill="#3a4a5e">TRI-STATE K9 REGISTRY</text>
+<text x="180" y="80" font-family="{F}" font-size="36" font-weight="800" letter-spacing="0.3" fill="#0c1b2e">CERTIFIED TEAM</text>
+<text x="182" y="104" font-family="{F}" font-size="15" font-weight="600" fill="#3a4a5e">Bed bug scent detection K9</text>
+<text x="182" y="124" font-family="{F}" font-size="15" font-weight="700" fill="#0c1b2e">{handler} &amp; {dog}</text>
+<rect x="182" y="136" width="116" height="4" fill="#e8641e"/><rect x="298" y="136" width="116" height="4" fill="#0f9384"/><rect x="414" y="136" width="116" height="4" fill="#4f5fd6"/>
+<text x="182" y="160" font-family="{M}" font-size="13" font-weight="600" fill="#0c1b2e">{team}</text>
+<text x="530" y="160" text-anchor="end" font-family="{M}" font-size="12" fill="#3a4a5e">Valid thru {valid}</text>
+</svg>"""

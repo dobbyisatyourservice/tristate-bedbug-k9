@@ -41,6 +41,7 @@
         r.hidden=!ok; if(ok)shown++;});
       if(empty)empty.hidden=shown>0;
     };
+    try{var tp=new URLSearchParams(location.search).get('team');if(tp)q.value=tp;}catch(e){}
     q.addEventListener('input',run);
     chips.forEach(function(c){c.addEventListener('click',function(){
       state=c.getAttribute('data-state'); chips.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false');}); run();});});

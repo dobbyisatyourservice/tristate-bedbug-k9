@@ -77,8 +77,9 @@ PAGES = [
     ("resources", "resources.html", "Resources"),
     ("contact", "contact.html", "Contact"),
     ("privacy", "privacy.html", "Privacy & cookies"),
+    ("badges", "badges.html", "Registry badges"),
 ]
-NAV_HIDE = {"privacy"}
+NAV_HIDE = {"privacy", "badges"}
 
 DESC = {
     "home": "Independent bed bug scent detection certification for K9 teams in New York, New Jersey and Connecticut. Dogs are tested on live bed bug odor only.",
@@ -88,8 +89,9 @@ DESC = {
     "certified": "Verify a K9 team's bed bug scent detection credential. Search certified teams in NY, NJ and CT.",
     "verify": "In-field bed bug K9 verification for NYC property managers, hotels and organizations. A Council evaluator tests the dog team you hire, on site at your property.",
     "contact": "Contact the Tri-State Bed Bug K9 Council about bed bug scent detection certification.",
-    "faq": "Answers about bed bug K9 certification: field evaluations, pass criteria, fees, credential renewal and verifying a team in NY, NJ and CT.",
+    "faq": "Bed bug K9 FAQ: how to tell if a bed bug dog is legit, certification and verification, plus NYC, NJ and CT landlord and tenant bed bug rules.",
     "resources": "Guides and articles on bed bug scent detection, K9 field evaluations and hiring a certified bed bug dog team.",
+    "badges": "Registry badges for certified bed bug K9 teams listed with the Tri-State Bed Bug K9 Council, with embed code that links to each team's live listing.",
     "privacy": "How the Tri-State Bed Bug K9 Council handles form submissions and cookies.",
 }
 
@@ -357,6 +359,19 @@ def page_verify(m):
 <h3>Already listed?</h3><p class="sel">You can check a team's current credential anytime in the <a href="{L(m,'certified')}">public registry</a>. Field verification goes a step further by testing the team at your property.</p></aside>
 </section>"""
 
+def page_badges(m):
+    cards = []
+    for c, h, d, co, s, basis, ev, e in TEAMS:
+        src = f"https://{P['domain']}/badge/{c}.svg"
+        href = f"https://{P['domain']}/certified-teams?team={c}"
+        code = _html.escape(f'<a href="{href}" target="_blank" rel="noopener"><img src="{src}" alt="Certified bed bug K9 team {c}, Tri-State Bed Bug K9 Council registry" width="280" height="90"></a>')
+        cards.append(f'<li class="badge-card"><img src="badge/{c}.svg" alt="Registry badge for {_html.escape(h)} and {_html.escape(d)}" width="280" height="90" loading="lazy"><div><strong>{_html.escape(h)} &amp; {_html.escape(d)}</strong><span class="muted">{_html.escape(co)} &middot; {c}</span><label>Embed code<textarea readonly rows="3" onclick="this.select()">{code}</textarea></label></div></li>')
+    return f"""<section class="wrap page-head"><p class="eyebrow">For listed teams</p><h1>Registry badges</h1>
+<p class="lede">Show clients your team is listed in the Tri-State K9 registry. Each badge links to your live listing, so anyone can confirm it in one click. Badges are hosted by the Council, show your listing's valid-through date, and are taken down if a listing ends.</p></section>
+<section class="wrap section-tight"><ol class="badge-steps"><li>Find your team below.</li><li>Copy the embed code.</li><li>Paste it into your website's footer, about page or inspection page.</li></ol>
+<ul class="badge-list">{''.join(cards)}</ul>
+<p class="note">Badges may only be used by the team shown, while its listing is current. Questions? Use the <a href="{L(m,'contact')}">contact form</a>.</p></section>"""
+
 def page_privacy(m):
     return f"""<section class="wrap page-head"><p class="eyebrow">Legal</p><h1>Privacy &amp; cookies</h1>
 <p class="lede">How the {P['org']} handles information you send us and the small amount of data this website stores.</p></section>
@@ -394,6 +409,26 @@ FAQ = [
      "It's a service for property managers, landlords, co-op and condo boards, hotels and New York City organizations. If you're hiring or already working with a bed bug K9 team, a Council evaluator tests that team on site at your property, using blind hides of live bed bugs and distractors in sealed containers that are removed afterward. You get a written result. Any team can be verified, whether or not it's in our registry."),
     ("Is the Council independent?",
      "Yes. The Council doesn't train dogs, sell inspections or provide pest control. Every team is held to the same published standard, and evaluators can't test teams they trained or employ. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
+    ("How can I tell if a bed bug dog is legit?",
+     "Ask the handler for their Tri-State K9 team number and look it up in the public registry. A current listing shows the handler, the dog and when the team last passed a blind field evaluation on live bed bugs. Be cautious if a company can't name the certifying body, shows a certificate with no expiration date, or uses a dual-scent dog. In New York City you can also request an in-field verification, where a Council evaluator tests the team at your property."),
+    ("Is a bed bug dog certificate from years ago still meaningful?",
+     "Not much. Detection skills fade without practice, and dogs and handlers change. That's why Tri-State K9 credentials expire after 12 months and every team has to pass a new blind field evaluation to stay listed."),
+    ("Should a dog's alert be confirmed before treatment?",
+     "Yes. A K9 alert tells you where to look, not what to treat. Good practice is for a pest professional to visually confirm live bed bugs, eggs or other evidence at the alert location before treatment starts, and to record what was found."),
+    ("What should a bed bug K9 inspection report include?",
+     "At minimum: the date, the address and the units or rooms inspected, the handler's name, the dog's name, the team's certification number, every alert location, and what visual confirmation found. A report with the team number lets you or anyone else check the team's credential later."),
+    ("Do New York City landlords have to disclose bed bug history?",
+     "Yes. Under New York State law, owners renting apartments in New York City must give new tenants a Bedbug Disclosure Form (from NYS Homes and Community Renewal) showing the past year of bed bug history for the apartment and the building. Separately, Local Law 69 of 2017 requires owners of multiple dwellings to file an annual bed bug report with HPD between December 1 and December 31, covering November 1 through October 31, and to share it with tenants. This is general information, not legal advice."),
+    ("Are bed bugs a habitability issue for New York tenants?",
+     "They can be. New York's warranty of habitability, in Real Property Law Section 235-b, covers serious pest conditions, and New York courts have found that bed bug infestations can breach it. NYC tenants can report conditions to 311, and HPD can inspect and issue violations. Tenants are generally expected to allow access and prepare their units for treatment. This is general information, not legal advice."),
+    ("Who is responsible for bed bugs in a New Jersey apartment building?",
+     "Under New Jersey's maintenance code for multiple dwellings (N.J.A.C. 5:10-10.2), the owner is responsible for eradicating insects when an infestation is in two or more units or in common areas, must provide prevention and elimination by qualified persons at least once a year, and must keep vermin from traveling between floors through pipe chases. Occupants can be responsible for problems caused by their own willful acts or gross negligence. This is general information, not legal advice."),
+    ("What does Connecticut law require when a tenant reports bed bugs?",
+     "Under Connecticut General Statutes Section 47a-7a, a landlord must inspect the unit and the units next to it within five business days of a tenant's report, either personally or through a qualified inspector, and must start treatment within five business days if bed bugs are found. The landlord generally pays for inspection and treatment, and the tenant is responsible for preparing the unit. Detached single-family homes are excluded. This is general information, not legal advice."),
+    ("Does Connecticut law recognize bed bug detection dogs?",
+     "Yes. Connecticut's bed bug statute lists a bed bug detection team as a qualified inspector, defined as a scent detection canine team holding a current, independent, third-party certification. A current Tri-State K9 registry listing is a quick way for a landlord to confirm a team before it inspects."),
+    ("Is the registry free to search?",
+     "Yes. Anyone can search the Certified Teams registry by handler, dog or team number at no cost, and no account is needed."),
     ("Which areas do you cover?",
      "New York, New Jersey and Connecticut, including New York City, Long Island, northern and central New Jersey, and Fairfield and Hartford counties in Connecticut."),
 ]
@@ -401,9 +436,16 @@ FAQ = [
 def page_faq(m):
     items = "".join(f'<details class="faq-item"><summary>{q}</summary><p>{a}</p></details>' for q, a in FAQ)
     return f"""<section class="wrap page-head"><p class="eyebrow">Help</p><h1>Frequently asked questions</h1>
-<p class="lede">Answers about bed bug scent detection certification, field evaluations, fees and verifying a K9 team.</p></section>
+<p class="lede">Answers about bed bug K9 certification, verifying a dog team before you hire, and the bed bug rules landlords and tenants face in New York, New Jersey and Connecticut.</p></section>
 <section class="wrap section-tight two-col"><div class="faq">{items}</div>
-<aside class="side-list"><h3>Still have a question?</h3><p class="muted">Send it through our contact form and we'll reply within two business days.</p><a class="btn" href="{L(m,'contact')}">Contact us</a><a class="btn btn-ghost" href="{L(m,'apply')}">Request an evaluation</a></aside></section>"""
+<aside class="side-list"><h3>Still have a question?</h3><p class="muted">Send it through our contact form and we'll reply within two business days.</p><a class="btn" href="{L(m,'contact')}">Contact us</a><a class="btn btn-ghost" href="{L(m,'apply')}">Request an evaluation</a>
+<h3>Official sources</h3><ul class="doc-list">
+<li><a class="ext" href="https://www.nyc.gov/site/hpd/services-and-information/bedbugs.page" target="_blank" rel="noopener">NYC HPD: Bed bugs</a></li>
+<li><a class="ext" href="https://hcr.ny.gov/system/files/documents/2021/07/dbb-n-fillable.pdf" target="_blank" rel="noopener">NYS HCR: Bedbug Disclosure Form</a></li>
+<li><a class="ext" href="https://newyork.public.law/laws/n.y._real_property_law_section_235-b" target="_blank" rel="noopener">N.Y. Real Property Law 235-b</a></li>
+<li><a class="ext" href="https://regulations.justia.com/states/new-jersey/title-5/chapter-10/subchapter-10/section-5-10-10-2/" target="_blank" rel="noopener">N.J.A.C. 5:10-10.2</a></li>
+<li><a class="ext" href="https://law.justia.com/codes/connecticut/title-47a/chapter-830/section-47a-7a/" target="_blank" rel="noopener">Conn. Gen. Stat. 47a-7a</a></li>
+</ul></aside></section>"""
 
 import html as _html
 POST_DIR = ROOT / "content" / "posts"
@@ -505,7 +547,7 @@ def post_ld(p):
         "about": ["Bed bug detection dogs", "K9 certification", "New York City"], "spatialCoverage": "New York City, New Jersey, Connecticut"})
 
 BUILDERS = {"home": page_home, "events": page_events, "standards": page_standards, "apply": page_apply,
-            "certified": page_certified, "board": page_board, "contact": page_contact, "verify": page_verify, "privacy": page_privacy,
+            "certified": page_certified, "board": page_board, "contact": page_contact, "verify": page_verify, "badges": page_badges, "privacy": page_privacy,
             "faq": page_faq, "resources": page_resources, **{p["key"]: make_post(p) for p in POSTS}}
 
 CSS = (ROOT / "src" / "styles.css").read_text()
@@ -553,6 +595,11 @@ def build_site():
 {nav('site', key)}{STRIP}<main id="main">{BUILDERS[key]('site')}</main>{footer('site')}
 {COOKIE}<script src="app.js?v={VER}"></script></body></html>"""
         (out / fn).write_text(html)
+    # registry badges: site/badge/<team>.svg (regenerated every deploy, so an expired team's badge can be pulled)
+    bd = out / "badge"; bd.mkdir(exist_ok=True)
+    for f in bd.glob("*.svg"): f.unlink()
+    for c, h, d, co, s, basis, ev, e in TEAMS:
+        (bd / f"{c}.svg").write_text(logo.badge(c, _html.escape(d), _html.escape(h), e))
     # custom 404 (Netlify serves site/404.html automatically)
     import re as _re
     _h = (out / "index.html").read_text()
