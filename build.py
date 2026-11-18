@@ -160,9 +160,9 @@ def page_home(m):
 <section class="wrap section about">
 <div class="about-text">
 <p class="eyebrow">Who we are</p>
-<h2>Built by Tri-State pest professionals, for one pest</h2>
-<p>Detection dogs now handle a large share of bed bug inspections in apartments, hotels, dorms and offices across the region. Clients deserve to know that a dog's alert is reliable. Our members are pest management operators, handlers and entomologists who work these buildings every day.</p>
-<p>We focus on bed bugs and nothing else. We don't train dogs or sell inspections. We write the standard, train the evaluators, run the tests and publish the results.</p>
+<h2>Pest industry experience. Zero conflicts of interest.</h2>
+<p>Detection dogs are a common tool for bed bug inspections in apartments, hotels, dorms and offices across the region, and treatment decisions often start with a dog's alert. Clients deserve to know that alert is reliable. Our evaluators understand how bed bug work is done in Tri-State buildings, and the Council is 100% independent of the companies it evaluates.</p>
+<p>We don't train dogs, sell inspections or provide pest control, and we have no financial stake in whether a team passes. Evaluators can't test teams they trained or employ. We focus on bed bugs and nothing else: we write the standard, train the evaluators, run blind tests and publish the results.</p>
 </div>
 <dl class="stat-strip">
 <div><dt>Live hides found to pass</dt><dd>2 of 2</dd></div>
@@ -386,8 +386,8 @@ FAQ = [
      "Search the Certified Teams registry by handler, dog or team number. Every current team is listed with its field evaluation date and expiration. If a team isn't listed, its Tri-State K9 credential is not current. In New York City you can also request an in-field verification, where a Council evaluator tests the team at your property."),
     ("What is in-field verification?",
      "It's a service for property managers, landlords, co-op and condo boards, hotels and New York City organizations. If you're hiring or already working with a bed bug K9 team, a Council evaluator tests that team on site at your property, using blind hides of live bed bugs and distractors in sealed containers that are removed afterward. You get a written result. Any team can be verified, whether or not it's in our registry."),
-    ("Does the Council train dogs or sell inspections?",
-     "No. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
+    ("Is the Council independent?",
+     "Yes. The Council doesn't train dogs, sell inspections or provide pest control, and it has no financial stake in whether a team passes. Evaluators can't test teams they trained or employ. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
     ("Which areas do you cover?",
      "New York, New Jersey and Connecticut, including New York City, Long Island, northern and central New Jersey, and Fairfield and Hartford counties in Connecticut."),
 ]
@@ -549,7 +549,7 @@ def build_site():
         "- Standard: one handler and one dog search a building of at least four rooms in about 15 minutes; two live bed bug hides and two distractors; must find both live hides with no more than one false response; any alert on a distractor fails. Two evaluators observe; evaluators may not test teams they trained or employ.",
         "- Bed-bug-only dogs (no dual-scent dogs). Credentials are valid 12 months.",
         f"- Field evaluation is free; certified teams pay a {P['fee_reg']} annual registration.",
-        "- The Council does not train dogs or sell inspections. Contact is through website forms only.", "", "## Pages"]
+        "- The Council is fully independent: it does not train dogs, sell inspections or provide pest control, and evaluators may not test teams they trained or employ. Contact is through website forms only.", "", "## Pages"]
     llms += [f"- [{label}](https://{P['domain']}/{'' if k=='home' else fn}): {DESC.get(k,'')}" for k, fn, label in PAGES if k != "privacy" and not any(q["key"] == k for q in POSTS)]
     llms += ["", "## Guides"] + [f"- [{q['title']}](https://{P['domain']}/{q['fn']}): {q['description']}" for q in POSTS]
     (out / "llms.txt").write_text("\n".join(llms) + "\n")
