@@ -46,9 +46,11 @@ TEAMS = [
     ("TSK9-2026-0013", "Jill Meyer", "Finnagan", "Harlem River Hounds", "CT", "G", "Jul 23, 2026", "Jul 23, 2027"),
     ("TSK9-2026-0014", "Jill Meyer", "Lucy", "Harlem River Hounds", "CT", "G", "Jul 23, 2026", "Jul 23, 2027"),
     ("TSK9-2026-0015", "Lynnette Milleville", "Rose", "Nutmeg Farm LLC", "CT", "G", "Oct 8, 2026", "Oct 8, 2027"),
+    ("TSK9-2026-0016", "Ruben Jorge", "Roxy", "NYC Bed Bug Inspections", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
 ]
 
 COMPANY_SITES = {
+    "NYC Bed Bug Inspections": "https://nycbedbuginspections.com/",
     "Diamond Dogs": "https://diamonddogsipm.com/",
     "Harlem River Hounds": "http://www.harlemriverhounds.com/",
     "Nutmeg Farm LLC": "http://www.nutmegfarm.net",
