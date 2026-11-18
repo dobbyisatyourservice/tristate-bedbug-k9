@@ -123,7 +123,7 @@ def page_home(m):
     return f"""
 <section class="hero"><div class="wrap hero-grid">
 <div class="hero-copy">
-<p class="eyebrow">Bed bug scent detection certification &middot; NY &middot; NJ &middot; CT</p>
+<p class="eyebrow"><span>Bed bug scent detection certification <span class="nw">&middot; NY &middot; NJ &middot; CT</span></span></p>
 <h1>Certified bed bug K9 teams. Independently verified.</h1>
 <p class="lede">The {P['org']} certifies K9 scent detection teams on one thing: finding live bed bug odor. Every team is tested against one strict, bed-bug-only field standard, run by evaluators who live and work in the region.</p>
 <div class="cta-row"><a class="btn" href="{L(m,'apply')}">Request an evaluation</a><a class="btn btn-ghost" href="{L(m,'certified')}">Verify a certified team</a></div>
@@ -199,10 +199,10 @@ def page_events(m):
         ("Jun 16, 2027", "Group field evaluations", "Central NJ", "Evaluation"),
         ("Jul 22, 2027", "Group field evaluations", "Hartford area, CT", "Evaluation"),
     ]
-    tr = "".join(f'<tr><td class="num">{d}</td><td>{t}</td><td>{l}</td><td><span class="pill pill-{k.lower()}">{k}</span></td></tr>' for d,t,l,k in rows)
+    tr = "".join(f'<tr><td class="num e-date">{d}</td><td class="e-name">{t}</td><td class="e-loc">{l}</td><td class="e-type"><span class="pill pill-{k.lower()}">{k}</span></td></tr>' for d,t,l,k in rows)
     return f"""<section class="wrap page-head"><p class="eyebrow">Calendar</p><h1>Upcoming events</h1>
 <p class="lede">Bed bug scent detection evaluation days across the Tri-State. No travel fee at scheduled evaluation days. Register at least 30 days ahead so we can prepare live bed bug odor hides.</p></section>
-<section class="wrap section-tight">{('<div class="table-scroll"><table><thead><tr><th>Date</th><th>Event</th><th>Location</th><th>Type</th></tr></thead><tbody>' + tr + '</tbody></table></div>') if rows else ('<div class="empty-state"><h3>2027 evaluation days coming soon</h3><p>The first group evaluation dates for New York, New Jersey and Connecticut are being set now. Request an evaluation and we will email you as soon as dates near you are posted.</p><a class="btn" href="' + L(m,'apply') + '">Request an evaluation</a></div>')}
+<section class="wrap section-tight">{('<div class="table-scroll mcards"><table id="event-table"><thead><tr><th>Date</th><th>Event</th><th>Location</th><th>Type</th></tr></thead><tbody>' + tr + '</tbody></table></div>') if rows else ('<div class="empty-state"><h3>2027 evaluation days coming soon</h3><p>The first group evaluation dates for New York, New Jersey and Connecticut are being set now. Request an evaluation and we will email you as soon as dates near you are posted.</p><a class="btn" href="' + L(m,'apply') + '">Request an evaluation</a></div>')}
 <p>Can't make a scheduled date? Request an on-site evaluation at your location. An evaluator travel fee applies. <a href="{L(m,'apply')}">Request an evaluation</a> or <a href="{L(m,'contact')}">contact us</a> with the number of teams and a preferred month.</p></section>"""
 
 def page_standards(m):
@@ -269,9 +269,9 @@ def site_link(co):
 def page_certified(m):
     chips = "".join(f'<button type="button" class="chip" data-state="{k}" aria-pressed="{"true" if k=="ALL" else "false"}">{"" if k=="ALL" else f"<i class=dot style=background:var(--{k.lower()})></i>"}{lbl}</button>' for k,lbl in [("ALL","All"),("NY","New York"),("NJ","New Jersey"),("CT","Connecticut")])
     if TEAMS:
-        tr = "".join(f'<tr data-state="{s}"><td><code>{c}</code>{'<a class="fy" href="#grandfather" title="Listed under a prior certification">&dagger;</a>' if b=="G" else ""}</td><td>{h}</td><td>{d}</td><td>{co}</td><td><span class="st"><i class="dot d-{s.lower()}"></i>{s}</span></td><td>{site_link(co)}</td><td class="num">{ev}</td><td class="num">{e}</td></tr>' for c,h,d,co,s,b,ev,e in TEAMS)
+        tr = "".join(f'<tr data-state="{s}"><td class="c-id"><code>{c}</code>{'<a class="fy" href="#grandfather" title="Listed under a prior certification">&dagger;</a>' if b=="G" else ""}</td><td class="c-h">{h}</td><td class="c-d" data-label="Dog">{d}</td><td class="c-co">{co}</td><td class="c-st"><span class="st"><i class="dot d-{s.lower()}"></i>{s}</span></td><td class="c-web">{site_link(co)}</td><td class="num c-ev" data-label="Field evaluation">{ev}</td><td class="num c-exp" data-label="Valid through">{e}</td></tr>' for c,h,d,co,s,b,ev,e in TEAMS)
         body = f"""<div class="reg-tools"><label class="search" for="team-search">Search by name, dog or team #<input id="team-search" type="search" placeholder="e.g. TSK9-2026-6290"></label><div class="chips">{chips}</div></div>
-<div class="table-scroll"><table id="team-table"><thead><tr><th>Team #</th><th>Handler</th><th>Dog</th><th>Company</th><th>State</th><th>Website</th><th>Field evaluation</th><th>Valid through</th></tr></thead><tbody>{tr}</tbody></table></div>
+<div class="table-scroll mcards"><table id="team-table"><thead><tr><th>Team #</th><th>Handler</th><th>Dog</th><th>Company</th><th>State</th><th>Website</th><th>Field evaluation</th><th>Valid through</th></tr></thead><tbody>{tr}</tbody></table></div>
 <p class="empty" id="team-empty" hidden>No current team matches that search.</p>
 <div class="note-box" id="grandfather"><h3><span class="fy">&dagger;</span> Policy</h3><p>Teams that already held a current bed bug detection certification from a recognized certifying body, based on a passed blind field evaluation, are listed. Their listing runs 12 months from that field evaluation. To renew, every team must pass a Tri-State K9 field evaluation directly.</p></div>"""
     else:
