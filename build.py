@@ -86,7 +86,7 @@ DESC = {
     "standards": "The bed bug scent detection standard: live bed bug hides, distractors, blind conditions and pass criteria for certified K9 teams.",
     "apply": "Request a bed bug scent detection evaluation for your K9 team in New York, New Jersey or Connecticut.",
     "certified": "Verify a K9 team's bed bug scent detection credential. Search certified teams in NY, NJ and CT.",
-    "verify": "In-field bed bug K9 verification for NYC property managers and businesses. A Council evaluator tests the dog team you hire, on site at your property.",
+    "verify": "In-field bed bug K9 verification for NYC property managers, hotels and organizations. A Council evaluator tests the dog team you hire, on site at your property.",
     "contact": "Contact the Tri-State Bed Bug K9 Council about bed bug scent detection certification.",
     "faq": "Answers about bed bug K9 certification: field evaluations, pass criteria, fees, credential renewal and verifying a team in NY, NJ and CT.",
     "resources": "Guides and articles on bed bug scent detection, K9 field evaluations and hiring a certified bed bug dog team.",
@@ -456,11 +456,37 @@ def make_post(p):
 <aside class="side-list"><h3>Related guides</h3><ul class="doc-list">{''.join(f'<li><a href="{L(m,q["key"])}">{_html.escape(q["title"])}</a></li>' for q in related)}</ul><a class="btn btn-ghost" href="{L(m,'resources')}">All resources</a></aside></section>"""
     return build
 
+ORG_ID = f"https://{P['domain']}/#organization"
+def org_ld():
+    return {"@type": "Organization", "@id": ORG_ID, "name": P["org"], "alternateName": [P["short"], "TSK9"],
+        "url": f"https://{P['domain']}/", "logo": {"@type": "ImageObject", "url": f"https://{P['domain']}/logo.png"},
+        "image": f"https://{P['domain']}/og-image.png", "description": DESC["home"],
+        "slogan": "Certified bed bug K9 teams. Independently verified.",
+        "areaServed": [{"@type": "State", "name": n} for n in ("New York", "New Jersey", "Connecticut")] + [{"@type": "City", "name": "New York City"}],
+        "knowsAbout": ["Bed bug scent detection dogs", "K9 detection team certification", "Blind field evaluations", "Bed bug inspections", "Cimex lectularius"],
+        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "url": f"https://{P['domain']}/contact.html", "areaServed": ["US-NY", "US-NJ", "US-CT"], "availableLanguage": "en"}}
+def crumbs_ld(label, url):
+    return {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": f"https://{P['domain']}/"},
+        {"@type": "ListItem", "position": 2, "name": label, "item": url}]}
+def service_ld(key, url):
+    nyc = [{"@type": "City", "name": "New York City"}] + [{"@type": "AdministrativeArea", "name": b} for b in ("Manhattan", "Brooklyn", "Queens", "The Bronx", "Staten Island")]
+    if key == "verify":
+        return {"@type": "Service", "@id": url + "#service", "name": "In-field bed bug K9 verification", "serviceType": "Bed bug detection dog verification",
+            "description": DESC["verify"], "provider": {"@id": ORG_ID}, "areaServed": nyc, "url": url,
+            "audience": {"@type": "Audience", "audienceType": "Property managers, landlords, co-op and condo boards, hotels, schools and New York City organizations"}}
+    if key == "apply":
+        return {"@type": "Service", "@id": url + "#service", "name": "Bed bug K9 team certification", "serviceType": "Bed bug scent detection dog certification",
+            "description": DESC["apply"], "provider": {"@id": ORG_ID}, "url": url,
+            "areaServed": [{"@type": "State", "name": n} for n in ("New York", "New Jersey", "Connecticut")],
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Field evaluation is free; certified teams pay an annual registration."}}
+    return None
+
 def post_ld(p):
     url = f"https://{P['domain']}/{p['fn']}"
-    org = {"@type": "Organization", "name": P["org"], "url": f"https://{P['domain']}/", "logo": f"https://{P['domain']}/logo.png"}
+    org = {"@id": ORG_ID}
     return json.dumps({"@context": "https://schema.org", "@type": "NewsArticle" if p.get("type") == "press" else "BlogPosting",
-        "headline": p["title"], "description": p["description"], "keywords": p["keywords"], "datePublished": p["date"], "dateModified": p["date"],
+        "headline": p["title"], "description": p["description"], "keywords": p["keywords"], **({"datePublished": p["date"], "dateModified": p["date"]} if p.get("show_date", "").lower() in ("true", "yes") else {}),
         "author": org, "publisher": org, "mainEntityOfPage": url, "url": url, "image": f"https://{P['domain']}/og-image.png",
         "articleSection": p["category"], "wordCount": p["words"], "inLanguage": "en-US",
         "about": ["Bed bug detection dogs", "K9 certification", "New York City"], "spatialCoverage": "New York City, New Jersey, Connecticut"})
@@ -485,17 +511,24 @@ def build_site():
     (out / "logo-white.svg").write_text(logo.standalone(dark=True))
     (out / "favicon.svg").write_text(logo.standalone_mark())
     for key, fn, label in PAGES:
-        title = f"{P['org']} | Bed Bug Scent Detection Certification" if key == "home" else f"{label} | {P['org']}"
+        title = f"{P['org']} | Bed Bug Scent Detection Certification" if key == "home" else f"{label} | {P['short']}"
         url = f"https://{P['domain']}/" + ("" if key == "home" else fn)
         desc = DESC.get(key, DESC["home"])
+        if len(desc) > 160: desc = desc[:157].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
         ld = ""
         _pm = next((q for q in POSTS if q["key"] == key), None)
         if _pm:
             ld = '<meta name="keywords" content="' + _html.escape(_pm["keywords"]) + '"><script type="application/ld+json">' + post_ld(_pm) + '</script>'
         elif key == "faq":
             ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}) + '</script>'
-        elif key == "home":
-            ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":P["org"],"alternateName":P["short"],"url":f"https://{P['domain']}/","logo":f"https://{P['domain']}/logo.png","description":DESC["home"],"areaServed":[{"@type":"State","name":n} for n in ("New York","New Jersey","Connecticut")]}) + '</script>'
+        graph = [org_ld()]
+        if key == "home":
+            graph.append({"@type": "WebSite", "@id": f"https://{P['domain']}/#website", "url": f"https://{P['domain']}/", "name": P["org"], "alternateName": P["short"], "publisher": {"@id": ORG_ID}, "inLanguage": "en-US"})
+        else:
+            graph.append(crumbs_ld(_pm["title"] if _pm else label, url))
+        _svc = service_ld(key, url)
+        if _svc: graph.append(_svc)
+        ld += '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}) + '</script>'
         html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title><meta name="description" content="{desc}">
 <link rel="canonical" href="{url}"><meta name="robots" content="index, follow">
@@ -508,6 +541,15 @@ def build_site():
 {COOKIE}<script src="app.js?v={VER}"></script></body></html>"""
         (out / fn).write_text(html)
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: https://{P['domain']}/sitemap.xml\n")
+    llms = [f"# {P['org']}", "", f"> {DESC['home']} The Council runs blind field evaluations on live bed bugs, publishes a public registry of certified K9 teams, and offers in-field verification of K9 teams for New York City property managers, hotels and organizations.", "",
+        "Key facts:", "- Coverage: New York, New Jersey and Connecticut. In-field verification program focused on New York City.",
+        "- Standard: one handler and one dog search a building of at least four rooms in about 15 minutes; two live bed bug hides and two distractors; must find both live hides with no more than one false response; any alert on a distractor fails. Two evaluators observe; evaluators may not test teams they trained or employ.",
+        "- Bed-bug-only dogs (no dual-scent dogs). Credentials are valid 12 months.",
+        f"- Field evaluation is free; certified teams pay a {P['fee_reg']} annual registration.",
+        "- The Council does not train dogs or sell inspections. Contact is through website forms only.", "", "## Pages"]
+    llms += [f"- [{label}](https://{P['domain']}/{'' if k=='home' else fn}): {DESC.get(k,'')}" for k, fn, label in PAGES if k != "privacy" and not any(q["key"] == k for q in POSTS)]
+    llms += ["", "## Guides"] + [f"- [{q['title']}](https://{P['domain']}/{q['fn']}): {q['description']}" for q in POSTS]
+    (out / "llms.txt").write_text("\n".join(llms) + "\n")
     urls = "".join(f"<url><loc>https://{P['domain']}/{'' if k=='home' else fn}</loc></url>" for k, fn, _ in PAGES)
     (out / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     (out / "site.webmanifest").write_text(json.dumps({"name":P["org"],"short_name":P["short"],"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"favicon.svg","sizes":"any","type":"image/svg+xml"}],"theme_color":"#0c1b2e","background_color":"#0c1b2e","display":"browser"}))
