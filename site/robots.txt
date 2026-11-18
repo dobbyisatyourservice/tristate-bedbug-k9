@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://k9council.org/sitemap.xml

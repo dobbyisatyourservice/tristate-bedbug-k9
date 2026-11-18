@@ -6,7 +6,7 @@ DOG = "M15 45 C14 37 15 29 19 23 L20 5 C24 8 27 12 28 15 L33 5 C35 9 37 14 37 18
 EYE = "M38.5 22.6 Q40 21.4 41.4 22.6 Q40 23.4 38.5 22.6 Z"
 NOSE = "M52.8 24.1 C54.8 24.4 55.7 25.6 55.6 27.8 C54.2 28.3 52.9 28 52.3 27 C51.9 25.9 52 24.7 52.8 24.1 Z"
 
-def mark(ink="currentColor", paper="var(--bg)", c1="var(--ny)", c2="var(--nj)", c3="var(--ct)", cls="mark"):
+def mark(ink="currentColor", paper="var(--mark-paper, var(--bg))", c1="var(--ny)", c2="var(--nj)", c3="var(--ct)", cls="mark"):
     return f"""<svg class="{cls}" viewBox="0 0 64 64" aria-hidden="true">
 <path d="M32 1.5 L60 10.5 V33 C60 49 48 58.5 32 63 C16 58.5 4 49 4 33 V10.5 Z" fill="{ink}"/>
 <clipPath id="tsk9-shield"><path d="M32 1.5 L60 10.5 V33 C60 49 48 58.5 32 63 C16 58.5 4 49 4 33 V10.5 Z"/></clipPath><g clip-path="url(#tsk9-shield)"><path d="M0 46 H64" stroke="{c1}" stroke-width="2.8"/><path d="M0 51 H64" stroke="{c2}" stroke-width="2.8"/><path d="M0 56 H64" stroke="{c3}" stroke-width="2.8"/></g>

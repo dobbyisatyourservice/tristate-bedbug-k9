@@ -46,3 +46,10 @@
     run();
   }
 })();
+(function(){
+  var c=document.getElementById('cookie'); if(!c)return;
+  var link=c.querySelector('[data-route-link]'); if(link&&document.querySelector('.view'))link.setAttribute('href','#privacy');
+  var seen=false; try{seen=localStorage.getItem('tsk9-cookie-ok')==='1';}catch(e){}
+  if(!seen)c.hidden=false;
+  document.getElementById('cookie-ok').addEventListener('click',function(){c.hidden=true;try{localStorage.setItem('tsk9-cookie-ok','1');}catch(e){}});
+})();
