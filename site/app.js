@@ -24,8 +24,17 @@
   // forms: in the preview there is nowhere to send, so show the confirmation instead
   document.querySelectorAll('form.form').forEach(function(f){
     f.addEventListener('submit',function(e){
-      if(f.hasAttribute('data-netlify')&&location.protocol.indexOf('http')===0&&!views.length)return; // real site: let the host handle it
-      e.preventDefault(); var m=f.querySelector('.form-msg'); if(m)m.hidden=false; f.reset();
+      e.preventDefault(); var m=f.querySelector('.form-msg');
+      if(f.hasAttribute('data-netlify')&&location.protocol.indexOf('http')===0&&!views.length){
+        // real site: post to Netlify at "/" so no page redirect can drop the submission
+        var b=f.querySelector('[type=submit]'); if(b){b.disabled=true;b.dataset.t=b.textContent;b.textContent='Sending...';}
+        fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+          .then(function(r){if(!r.ok)throw 0; if(m){m.textContent=m.dataset.ok||m.textContent;m.hidden=false;} f.reset();})
+          .catch(function(){if(m){m.dataset.ok=m.dataset.ok||m.textContent;m.textContent='Sorry, that did not send. Please try again in a minute.';m.hidden=false;}})
+          .then(function(){if(b){b.disabled=false;b.textContent=b.dataset.t;}});
+        return;
+      }
+      if(m)m.hidden=false; f.reset();
     });
   });
 

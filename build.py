@@ -234,9 +234,9 @@ def page_standards(m):
 </section>"""
 
 def form_eval(m):
-    attrs = 'name="evaluation" method="POST" data-netlify="true"' if m == "site" else 'name="evaluation"'
+    attrs = 'name="evaluation" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"' if m == "site" else 'name="evaluation"'
     return f"""<form class="form" id="eval-form" {attrs}>
-<input type="hidden" name="form-name" value="evaluation">
+<input type="hidden" name="form-name" value="evaluation"><p hidden><label>Leave blank<input name="bot-field"></label></p>
 <div class="row2"><label for="ev-name">Handler name<input id="ev-name" name="handler" required></label>
 <label for="ev-company">Company<input id="ev-company" name="company"></label></div>
 <div class="row2"><label for="ev-email">Email<input id="ev-email" type="email" name="email" required></label>
@@ -299,11 +299,11 @@ def page_board(m):
 <div class="callout"><h3>Members area</h3><p>Certified teams and evaluators can sign in to download score sheets and meeting minutes. <span class="muted">Connect a members login when you're ready.</span></p></div></section>"""
 
 def page_contact(m):
-    attrs = 'name="contact" method="POST" data-netlify="true"' if m == "site" else 'name="contact"'
+    attrs = 'name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"' if m == "site" else 'name="contact"'
     return f"""<section class="wrap page-head"><p class="eyebrow">Contact</p><h1>Contact the Council</h1>
 <p class="lede">Questions about bed bug scent detection certification, our odor standards, evaluations or a listed team. Looking for a trainer? Choose "Approved trainer list" below.</p></section>
 <section class="wrap section-tight two-col">
-<form class="form" id="contact-form" {attrs}><input type="hidden" name="form-name" value="contact">
+<form class="form" id="contact-form" {attrs}><input type="hidden" name="form-name" value="contact"><p hidden><label>Leave blank<input name="bot-field"></label></p>
 <div class="row2"><label for="c-name">Name<input id="c-name" name="name" required></label><label for="c-email">Email<input id="c-email" type="email" name="email" required></label></div>
 <label for="c-topic">Topic<select id="c-topic" name="topic"><option>Evaluation question</option><option>Approved trainer list</option><option>Verify a team</option><option>Become an evaluator</option><option>Report a concern</option><option>Other</option></select></label>
 <label for="c-msg">Message<textarea id="c-msg" name="message" rows="5" required></textarea></label>
