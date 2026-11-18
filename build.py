@@ -161,15 +161,15 @@ def page_home(m):
 <div class="about-text">
 <p class="eyebrow">Who we are</p>
 <h2>Pest industry experience. Zero conflicts of interest.</h2>
-<p>Detection dogs are a common tool for bed bug inspections in apartments, hotels, dorms and offices across the region, and treatment decisions often start with a dog's alert. Clients deserve to know that alert is reliable. Our evaluators understand how bed bug work is done in Tri-State buildings, and the Council is 100% independent of the companies it evaluates.</p>
-<p>We don't train dogs, sell inspections or provide pest control, and we have no financial stake in whether a team passes. Evaluators can't test teams they trained or employ. We focus on bed bugs and nothing else: we write the standard, train the evaluators, run blind tests and publish the results.</p>
+<p>Treatment decisions often start with a detection dog's alert, so clients deserve to know that alert is reliable. Our evaluators understand how bed bug work is done in Tri-State apartments, hotels, dorms and offices.</p>
+<p>The Council is 100% independent of the companies it evaluates. We focus on bed bugs and nothing else: we write the standard, train the evaluators, run blind tests and publish the results.</p>
 </div>
-<dl class="stat-strip">
-<div><dt>Live hides found to pass</dt><dd>2 of 2</dd></div>
-<div><dt>False responses allowed</dt><dd>&le; 1</dd></div>
-<div><dt>Renewal cycle</dt><dd>12 mo</dd></div>
-<div><dt>Exam fee</dt><dd>$0</dd></div>
-</dl>
+<ul class="indep">
+<li><strong>No pest control</strong><span>We don't treat, inspect or sell services to building owners.</span></li>
+<li><strong>No dog training or sales</strong><span>We don't train, sell or place detection dogs.</span></li>
+<li><strong>One standard for everyone</strong><span>Every team is held to the same published pass criteria.</span></li>
+<li><strong>No testing your own</strong><span>Evaluators can't test teams they trained or employ.</span></li>
+</ul>
 </section>
 
 <section class="band-tint"><div class="wrap section">
@@ -181,6 +181,12 @@ def page_home(m):
 <li><h3>Field test</h3><p>Your team searches a building of at least four rooms holding two live bed bug hides and two distractors, in 15 minutes. Two evaluators watch; hide locations stay secret.</p></li>
 <li><h3>Get listed</h3><p>Pass and you receive a numbered credential and a public registry listing for 12 months.</p></li>
 </ol>
+<dl class="stat-row">
+<div><dt>Live hides found to pass</dt><dd>2 of 2</dd></div>
+<div><dt>False responses allowed</dt><dd>&le; 1</dd></div>
+<div><dt>Renewal cycle</dt><dd>12 mo</dd></div>
+<div><dt>Exam fee</dt><dd>$0</dd></div>
+</dl>
 </div></section>
 
 <section class="wrap section" style="display:grid;gap:24px">
@@ -387,7 +393,7 @@ FAQ = [
     ("What is in-field verification?",
      "It's a service for property managers, landlords, co-op and condo boards, hotels and New York City organizations. If you're hiring or already working with a bed bug K9 team, a Council evaluator tests that team on site at your property, using blind hides of live bed bugs and distractors in sealed containers that are removed afterward. You get a written result. Any team can be verified, whether or not it's in our registry."),
     ("Is the Council independent?",
-     "Yes. The Council doesn't train dogs, sell inspections or provide pest control, and it has no financial stake in whether a team passes. Evaluators can't test teams they trained or employ. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
+     "Yes. The Council doesn't train dogs, sell inspections or provide pest control. Every team is held to the same published standard, and evaluators can't test teams they trained or employ. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
     ("Which areas do you cover?",
      "New York, New Jersey and Connecticut, including New York City, Long Island, northern and central New Jersey, and Fairfield and Hartford counties in Connecticut."),
 ]
