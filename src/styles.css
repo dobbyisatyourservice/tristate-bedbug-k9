@@ -328,3 +328,4 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .post-cta{margin-top:22px;padding:20px 22px;border-radius:12px;background:var(--tint);border:1px solid var(--line);display:grid;gap:10px}
 .post-cta p{margin:0}
 .post-cta .btn{justify-self:start}
+.state-row{font-size:.9rem;margin-top:-2px}

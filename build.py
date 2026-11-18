@@ -404,7 +404,8 @@ def page_resources(m):
     feat_html = "".join(f"""<article class="post-feature">{_post_meta(p)}<h2><a href="{L(m,p['key'])}">{_html.escape(p['title'])}</a></h2><p class="muted">{_html.escape(p['description'])}</p><a class="btn btn-sm" href="{L(m,p['key'])}">Read the announcement</a></article>""" for p in feat)
     chips = "".join(f'<button type="button" class="chip" data-cat="{c}" aria-pressed="{"true" if c=="All" else "false"}">{c}</button>' for c in ["All"] + [c for c in CAT_ORDER if c != "Press release" and any(p["category"] == c for p in rest)])
     cards = "".join(f'<div data-cat="{_html.escape(p["category"])}">{card(p)}</div>' for p in rest)
-    return f"""<section class="wrap page-head"><p class="eyebrow">Resources</p><h1>Bed bug K9 guides for New York</h1>
+    return f"""<section class="wrap page-head"><p class="eyebrow">Resources</p><h1>Bed bug K9 guides for the Tri-State</h1>
+<div class="trust-row state-row"><span><i class="dot d-ny"></i>New York</span><span><i class="dot d-nj"></i>New Jersey</span><span><i class="dot d-ct"></i>Connecticut</span></div>
 <p class="lede">Practical guides on bed bug detection dogs, certified canine inspections and bed bug compliance for property managers, landlords, hotels and housing offices in New York City, New Jersey and Connecticut.</p></section>
 <section class="wrap section-tight">{feat_html}<div class="chips post-filter">{chips}</div><div class="post-grid" id="post-grid">{cards}</div></section>"""
 
