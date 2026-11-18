@@ -25,7 +25,7 @@
   document.querySelectorAll('form.form').forEach(function(f){
     f.addEventListener('submit',function(e){
       e.preventDefault(); var m=f.querySelector('.form-msg');
-      if(f.hasAttribute('data-netlify')&&location.protocol.indexOf('http')===0&&!views.length){
+      if(f.getAttribute('method')==='POST'&&location.protocol.indexOf('http')===0&&!views.length){
         // real site: post to Netlify at "/" so no page redirect can drop the submission
         var b=f.querySelector('[type=submit]'); if(b){b.disabled=true;b.dataset.t=b.textContent;b.textContent='Sending...';}
         fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
