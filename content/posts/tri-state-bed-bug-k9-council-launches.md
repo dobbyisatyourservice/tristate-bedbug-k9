@@ -29,4 +29,4 @@ The Council also certifies bed bug detection teams directly, with blind field ev
 
 ## About the Council
 
-The Tri-State Bed Bug K9 Council is an independent certification body for bed bug scent detection K9 teams in New York, New Jersey and Connecticut. It writes the standard, runs blind field evaluations on live bed bugs, verifies teams in the field for clients, and publishes a public registry of certified teams. The Council doesn't train dogs or sell inspections. Verification requests can be made at k9council.org/field-verification.html, and media inquiries can be sent through the contact form on the website.
+The Tri-State Bed Bug K9 Council is an independent certification body for bed bug scent detection K9 teams in New York, New Jersey and Connecticut. It writes the standard, runs blind field evaluations on live bed bugs, verifies teams in the field for clients, and publishes a public registry of certified teams. The Council doesn't train dogs or sell inspections. Verification requests can be made at k9council.org/field-verification, and media inquiries can be sent through the contact form on the website.

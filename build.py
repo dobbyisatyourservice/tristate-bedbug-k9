@@ -465,6 +465,10 @@ def make_post(p):
 <aside class="side-list"><h3>Related guides</h3><ul class="doc-list">{''.join(f'<li><a href="{L(m,q["key"])}">{_html.escape(q["title"])}</a></li>' for q in related)}</ul><a class="btn btn-ghost" href="{L(m,'resources')}">All resources</a></aside></section>"""
     return build
 
+INDEXNOW_KEY = "7f3c9a2e5b1d4e8fa6c0b9d2e4f1a3c5"
+def cu(fn):
+    """clean public URL path (Netlify Pretty URLs serves pages without .html)"""
+    return "" if fn == "index.html" else fn.removesuffix(".html")
 ORG_ID = f"https://{P['domain']}/#organization"
 def org_ld():
     return {"@type": "Organization", "@id": ORG_ID, "name": P["org"], "alternateName": [P["short"], "TSK9"],
@@ -473,7 +477,7 @@ def org_ld():
         "slogan": "Certified bed bug K9 teams. Independently verified.",
         "areaServed": [{"@type": "State", "name": n} for n in ("New York", "New Jersey", "Connecticut")] + [{"@type": "City", "name": "New York City"}],
         "knowsAbout": ["Bed bug scent detection dogs", "K9 detection team certification", "Blind field evaluations", "Bed bug inspections", "Cimex lectularius"],
-        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "url": f"https://{P['domain']}/contact.html", "areaServed": ["US-NY", "US-NJ", "US-CT"], "availableLanguage": "en"}}
+        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "url": f"https://{P['domain']}/contact", "areaServed": ["US-NY", "US-NJ", "US-CT"], "availableLanguage": "en"}}
 def crumbs_ld(label, url):
     return {"@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": f"https://{P['domain']}/"},
@@ -492,7 +496,7 @@ def service_ld(key, url):
     return None
 
 def post_ld(p):
-    url = f"https://{P['domain']}/{p['fn']}"
+    url = f"https://{P['domain']}/{cu(p['fn'])}"
     org = {"@id": ORG_ID}
     return json.dumps({"@context": "https://schema.org", "@type": "NewsArticle" if p.get("type") == "press" else "BlogPosting",
         "headline": p["title"], "description": p["description"], "keywords": p["keywords"], **({"datePublished": p["date"], "dateModified": p["date"]} if p.get("show_date", "").lower() in ("true", "yes") else {}),
@@ -521,7 +525,7 @@ def build_site():
     (out / "favicon.svg").write_text(logo.standalone_mark())
     for key, fn, label in PAGES:
         title = f"{P['org']} | Bed Bug Scent Detection Certification" if key == "home" else f"{label} | {P['short']}"
-        url = f"https://{P['domain']}/" + ("" if key == "home" else fn)
+        url = f"https://{P['domain']}/" + cu(fn)
         desc = DESC.get(key, DESC["home"])
         if len(desc) > 160: desc = desc[:157].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
         ld = ""
@@ -542,13 +546,28 @@ def build_site():
 <title>{title}</title><meta name="description" content="{desc}">
 <link rel="canonical" href="{url}"><meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0c1b2e"><meta name="color-scheme" content="light dark">
-<meta property="og:type" content="website"><meta property="og:site_name" content="{P['org']}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="https://{P['domain']}/og-image.png"><meta property="og:image:width" content="2400"><meta property="og:image:height" content="1260"><meta property="og:image:alt" content="Tri-State Bed Bug K9 Council logo: bed bug scent detection certification for NY, NJ and CT"><meta property="og:locale" content="en_US">
+<meta property="og:type" content="{'article' if _pm else 'website'}"><meta property="og:site_name" content="{P['org']}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="https://{P['domain']}/og-image.png"><meta property="og:image:width" content="2400"><meta property="og:image:height" content="1260"><meta property="og:image:alt" content="Tri-State Bed Bug K9 Council logo: bed bug scent detection certification for NY, NJ and CT"><meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="https://{P['domain']}/og-image.png">
 <link rel="icon" href="favicon.ico" sizes="48x48"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180"><link rel="manifest" href="site.webmanifest">{ld}
 {FONTS}<link rel="stylesheet" href="styles.css?v={VER}"></head><body>
 {nav('site', key)}{STRIP}<main id="main">{BUILDERS[key]('site')}</main>{footer('site')}
 {COOKIE}<script src="app.js?v={VER}"></script></body></html>"""
         (out / fn).write_text(html)
+    # custom 404 (Netlify serves site/404.html automatically)
+    import re as _re
+    _h = (out / "index.html").read_text()
+    _h = _re.sub(r"<title>.*?</title>", f"<title>Page not found | {P['short']}</title>", _h, count=1)
+    _h = _h.replace('<meta name="robots" content="index, follow">', '<meta name="robots" content="noindex">')
+    _h = _re.sub(r'<link rel="canonical"[^>]*>', "", _h, count=1)
+    _h = _re.sub(r'<script type="application/ld\+json">.*?</script>', "", _h, flags=_re.S)
+    _h = _re.sub(r"<main id=\"main\">.*</main>", f"""<main id="main"><section class="wrap page-head"><p class="eyebrow">404</p><h1>We couldn't find that page</h1>
+<p class="lede">The page may have moved. Try one of these instead.</p></section>
+<section class="wrap section-tight"><ul class="doc-list">
+<li><a href="/">Home</a></li><li><a href="/certified-teams">Search certified teams</a></li><li><a href="/field-verification">Request an in-field verification</a></li><li><a href="/applications">Request a team evaluation</a></li><li><a href="/resources">Bed bug K9 guides</a></li><li><a href="/faq">FAQ</a></li></ul></section></main>""", _h, count=1, flags=_re.S)
+    _h = _h.replace('href="favicon', 'href="/favicon').replace('href="apple-touch', 'href="/apple-touch').replace('href="site.webmanifest', 'href="/site.webmanifest').replace('href="styles.css', 'href="/styles.css').replace('src="app.js', 'src="/app.js')
+    (out / "404.html").write_text(_h)
+    # IndexNow: key file, plus a ping from the Netlify build so Bing/Yandex re-crawl after each deploy
+    (out / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY)
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: https://{P['domain']}/sitemap.xml\n")
     llms = [f"# {P['org']}", "", f"> {DESC['home']} The Council runs blind field evaluations on live bed bugs, publishes a public registry of certified K9 teams, and offers in-field verification of K9 teams for New York City property managers, hotels and organizations.", "",
         "Key facts:", "- Coverage: New York, New Jersey and Connecticut. In-field verification program focused on New York City.",
@@ -556,10 +575,10 @@ def build_site():
         "- Bed-bug-only dogs (no dual-scent dogs). Credentials are valid 12 months.",
         f"- Field evaluation is free; certified teams pay a {P['fee_reg']} annual registration.",
         "- The Council is fully independent: it does not train dogs, sell inspections or provide pest control, and evaluators may not test teams they trained or employ. Contact is through website forms only.", "", "## Pages"]
-    llms += [f"- [{label}](https://{P['domain']}/{'' if k=='home' else fn}): {DESC.get(k,'')}" for k, fn, label in PAGES if k != "privacy" and not any(q["key"] == k for q in POSTS)]
-    llms += ["", "## Guides"] + [f"- [{q['title']}](https://{P['domain']}/{q['fn']}): {q['description']}" for q in POSTS]
+    llms += [f"- [{label}](https://{P['domain']}/{cu(fn)}): {DESC.get(k,'')}" for k, fn, label in PAGES if k != "privacy" and not any(q["key"] == k for q in POSTS)]
+    llms += ["", "## Guides"] + [f"- [{q['title']}](https://{P['domain']}/{cu(q['fn'])}): {q['description']}" for q in POSTS]
     (out / "llms.txt").write_text("\n".join(llms) + "\n")
-    urls = "".join(f"<url><loc>https://{P['domain']}/{'' if k=='home' else fn}</loc></url>" for k, fn, _ in PAGES)
+    urls = "".join(f"<url><loc>https://{P['domain']}/{cu(fn)}</loc></url>" for k, fn, _ in PAGES)
     (out / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     (out / "site.webmanifest").write_text(json.dumps({"name":P["org"],"short_name":P["short"],"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"favicon.svg","sizes":"any","type":"image/svg+xml"}],"theme_color":"#0c1b2e","background_color":"#0c1b2e","display":"browser"}))
     for f in ("og-image.png", "apple-touch-icon.png", "logo.png", "favicon.ico", "favicon-32.png", "icon-192.png", "icon-512.png"):
@@ -577,3 +596,14 @@ def build_preview():
 
 build_site(); build_preview()
 print("built site/ and preview.html")
+
+if __name__ == "__main__" and __import__("os").environ.get("NETLIFY") == "true" and __import__("os").environ.get("CONTEXT") == "production":
+    try:
+        import urllib.request
+        _urls = [f"https://{P['domain']}/{cu(fn)}" for k, fn, _ in PAGES]
+        _req = urllib.request.Request("https://api.indexnow.org/indexnow", method="POST",
+            data=json.dumps({"host": P["domain"], "key": INDEXNOW_KEY, "keyLocation": f"https://{P['domain']}/{INDEXNOW_KEY}.txt", "urlList": _urls}).encode(),
+            headers={"Content-Type": "application/json; charset=utf-8"})
+        print("IndexNow:", urllib.request.urlopen(_req, timeout=10).status)
+    except Exception as _e:
+        print("IndexNow skipped:", _e)
