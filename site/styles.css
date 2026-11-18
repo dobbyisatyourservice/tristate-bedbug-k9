@@ -290,3 +290,4 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
   .foot-grid{gap:28px}
 }
 .nw{white-space:nowrap}
+@media (max-width:640px){.eb-sep,.scent-strip .sep{display:none}.eb-states{display:block;margin-top:5px}}

@@ -123,7 +123,7 @@ def page_home(m):
     return f"""
 <section class="hero"><div class="wrap hero-grid">
 <div class="hero-copy">
-<p class="eyebrow"><span>Bed bug scent detection certification <span class="nw">&middot; NY &middot; NJ &middot; CT</span></span></p>
+<p class="eyebrow"><span>Bed bug scent detection certification<span class="eb-sep"> &middot; </span><span class="nw eb-states">NY &middot; NJ &middot; CT</span></span></p>
 <h1>Certified bed bug K9 teams. Independently verified.</h1>
 <p class="lede">The {P['org']} certifies K9 scent detection teams on one thing: finding live bed bug odor. Every team is tested against one strict, bed-bug-only field standard, run by evaluators who live and work in the region.</p>
 <div class="cta-row"><a class="btn" href="{L(m,'apply')}">Request an evaluation</a><a class="btn btn-ghost" href="{L(m,'certified')}">Verify a certified team</a></div>
