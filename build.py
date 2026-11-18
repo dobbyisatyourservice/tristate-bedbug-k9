@@ -332,6 +332,9 @@ JS = (ROOT / "src" / "app.js").read_text()
 COOKIE = '<div class="cookie" id="cookie" role="region" aria-label="Cookie notice" hidden><p>We use only essential cookies to run this site and keep our forms secure. No advertising or tracking. <a href="privacy.html" data-route-link="privacy">Learn more</a></p><button class="btn btn-sm" type="button" id="cookie-ok">OK</button></div>'
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">'
 
+import hashlib
+VER = hashlib.sha1((CSS + JS).encode()).hexdigest()[:8]
+
 def build_site():
     out = ROOT / "site"; out.mkdir(exist_ok=True)
     (out / "styles.css").write_text(CSS)
@@ -353,9 +356,9 @@ def build_site():
 <meta property="og:type" content="website"><meta property="og:site_name" content="{P['org']}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}"><meta property="og:image" content="https://{P['domain']}/og-image.png"><meta property="og:image:width" content="2400"><meta property="og:image:height" content="1260"><meta property="og:image:alt" content="Tri-State Bed Bug K9 Council logo: bed bug scent detection certification for NY, NJ and CT"><meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="https://{P['domain']}/og-image.png">
 <link rel="icon" href="favicon.ico" sizes="48x48"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180"><link rel="manifest" href="site.webmanifest">{ld}
-{FONTS}<link rel="stylesheet" href="styles.css"></head><body>
+{FONTS}<link rel="stylesheet" href="styles.css?v={VER}"></head><body>
 {nav('site', key)}{STRIP}<main id="main">{BUILDERS[key]('site')}</main>{footer('site')}
-{COOKIE}<script src="app.js"></script></body></html>"""
+{COOKIE}<script src="app.js?v={VER}"></script></body></html>"""
         (out / fn).write_text(html)
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: https://{P['domain']}/sitemap.xml\n")
     urls = "".join(f"<url><loc>https://{P['domain']}/{'' if k=='home' else fn}</loc></url>" for k, fn, _ in PAGES)
