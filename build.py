@@ -321,7 +321,7 @@ def page_contact(m):
 def page_verify(m):
     attrs = 'name="verification" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"' if m == "site" else 'name="verification"'
     roles = "".join(f"<option>{r}</option>" for r in ["Property manager","Building owner or landlord","Co-op or condo board","Hotel or hospitality","School, university or dorm","Shelter, hospital or public housing","City agency or nonprofit","Other organization"])
-    areas = "".join(f"<option>{r}</option>" for r in ["Manhattan","Brooklyn","Queens","The Bronx","Staten Island","Elsewhere in New York","New Jersey","Connecticut"])
+    areas = "".join(f"<option>{r}</option>" for r in ["Manhattan","Brooklyn","Queens","The Bronx","Staten Island","New Jersey","Connecticut","Other"])
     reasons = "".join(f"<option>{r}</option>" for r in ["Before approving a team for our buildings","Before signing or renewing a contract","We have doubts about a team's results","Routine check of a current vendor"])
     return f"""<section class="wrap page-head"><p class="eyebrow">New in New York City</p><h1>In-field K9 verification</h1>
 <p class="lede">Don't take a dog team's word for it. If you're hiring or already working with a bed bug K9 team, a Council evaluator can test that team on site, at the property you want inspected, before you sign a contract or let the dog into your buildings.</p></section>
@@ -335,6 +335,7 @@ def page_verify(m):
 <div class="row2"><label for="v-name">Your name<input id="v-name" name="name" required></label><label for="v-org">Company or property<input id="v-org" name="organization" required></label></div>
 <div class="row2"><label for="v-email">Email<input id="v-email" type="email" name="email" required></label><label for="v-phone">Phone<input id="v-phone" type="tel" name="phone"></label></div>
 <div class="row2"><label for="v-role">You are a<select id="v-role" name="role">{roles}</select></label><label for="v-area">Property location<select id="v-area" name="location">{areas}</select></label></div>
+<div class="row2"><label for="v-zip">Property ZIP code<input id="v-zip" name="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="10001" required></label><span></span></div>
 <h3 class="form-sub">The K9 team to verify</h3>
 <div class="row2"><label for="v-co">Team's company<input id="v-co" name="team_company" required></label><label for="v-handler">Handler (if known)<input id="v-handler" name="team_handler"></label></div>
 <div class="row2"><label for="v-dog">Dog's name (if known)<input id="v-dog" name="team_dog"></label><label for="v-num">Team # (if they gave one)<input id="v-num" name="team_number" placeholder="TSK9-2026-0000"></label></div>
