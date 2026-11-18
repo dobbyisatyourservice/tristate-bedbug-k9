@@ -31,22 +31,22 @@ P = {
 # Valid through = 12 months after that date.
 # (credential, handler, dog, company, state, basis, field evaluation, valid through)
 TEAMS = [
-    ("TSK9-2026-0001", "Kevin Skinner", "Chip", "A & C Pest Management", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
-    ("TSK9-2026-0002", "Diana Ludwiczak", "Ecko", "Doctor Sniffs", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
-    ("TSK9-2026-0003", "Diana Ludwiczak", "Goosey", "Doctor Sniffs", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
-    ("TSK9-2026-0004", "Diana Ludwiczak", "Southy", "Doctor Sniffs", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
-    ("TSK9-2026-0005", "Richard Conti", "Ecko", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
-    ("TSK9-2026-0006", "Richard Conti", "Goosey", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
-    ("TSK9-2026-0007", "Richard Conti", "Southy", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
-    ("TSK9-2026-0008", "Scott Palatnik", "Hunter", "Long Island Bed Bug Inspections", "NY", "G", "Oct 8, 2026", "Oct 8, 2027"),
-    ("TSK9-2026-0009", "Glen Wheelock", "Matcha", "M & M Pest Control", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
-    ("TSK9-2026-0010", "Herbert Yan", "Trooper", "M & M Pest Control", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
-    ("TSK9-2026-0011", "Eric Miller", "Mocha", "Express Bed Bug Inspection", "NJ", "G", "Mar 24, 2026", "Mar 24, 2027"),
-    ("TSK9-2026-0012", "Alex Hernandez", "Isaac", "Diamond Dogs", "CT", "G", "Oct 8, 2026", "Oct 8, 2027"),
-    ("TSK9-2026-0013", "Jill Meyer", "Finnagan", "Harlem River Hounds", "CT", "G", "Jul 23, 2026", "Jul 23, 2027"),
-    ("TSK9-2026-0014", "Jill Meyer", "Lucy", "Harlem River Hounds", "CT", "G", "Jul 23, 2026", "Jul 23, 2027"),
-    ("TSK9-2026-0015", "Lynnette Milleville", "Rose", "Nutmeg Farm LLC", "CT", "G", "Oct 8, 2026", "Oct 8, 2027"),
-    ("TSK9-2026-0016", "Ruben Jorge", "Roxy", "NYC Bed Bug Inspections", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-6290", "Kevin Skinner", "Chip", "A & C Pest Management", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-6516", "Diana Ludwiczak", "Ecko", "Doctor Sniffs", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
+    ("TSK9-2026-5642", "Diana Ludwiczak", "Goosey", "Doctor Sniffs", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
+    ("TSK9-2026-4141", "Diana Ludwiczak", "Southy", "Doctor Sniffs", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
+    ("TSK9-2026-1769", "Richard Conti", "Ecko", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-2274", "Richard Conti", "Goosey", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-7199", "Richard Conti", "Southy", "Doctor Sniffs", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-4615", "Ruben Jorge", "Roxy", "NYC Bed Bug Inspections", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-3581", "Scott Palatnik", "Hunter", "Long Island Bed Bug Inspections", "NY", "G", "Oct 8, 2026", "Oct 8, 2027"),
+    ("TSK9-2026-7793", "Glen Wheelock", "Matcha", "M & M Pest Control", "NY", "G", "Oct 7, 2026", "Oct 7, 2027"),
+    ("TSK9-2026-5451", "Herbert Yan", "Trooper", "M & M Pest Control", "NY", "G", "Oct 6, 2026", "Oct 6, 2027"),
+    ("TSK9-2026-2420", "Eric Miller", "Mocha", "Express Bed Bug Inspection", "NJ", "G", "Mar 24, 2026", "Mar 24, 2027"),
+    ("TSK9-2026-6215", "Alex Hernandez", "Isaac", "Diamond Dogs", "CT", "G", "Oct 8, 2026", "Oct 8, 2027"),
+    ("TSK9-2026-7775", "Jill Meyer", "Finnagan", "Harlem River Hounds", "CT", "G", "Jul 23, 2026", "Jul 23, 2027"),
+    ("TSK9-2026-4891", "Jill Meyer", "Lucy", "Harlem River Hounds", "CT", "G", "Jul 23, 2026", "Jul 23, 2027"),
+    ("TSK9-2026-9035", "Lynnette Milleville", "Rose", "Nutmeg Farm LLC", "CT", "G", "Oct 8, 2026", "Oct 8, 2027"),
 ]
 
 COMPANY_SITES = {
@@ -270,8 +270,8 @@ def page_certified(m):
     chips = "".join(f'<button type="button" class="chip" data-state="{k}" aria-pressed="{"true" if k=="ALL" else "false"}">{"" if k=="ALL" else f"<i class=dot style=background:var(--{k.lower()})></i>"}{lbl}</button>' for k,lbl in [("ALL","All"),("NY","New York"),("NJ","New Jersey"),("CT","Connecticut")])
     if TEAMS:
         tr = "".join(f'<tr data-state="{s}"><td><code>{c}</code>{'<a class="fy" href="#grandfather" title="Founding-year listing">&dagger;</a>' if b=="G" else ""}</td><td>{h}</td><td>{d}</td><td>{co}</td><td><span class="st"><i class="dot d-{s.lower()}"></i>{s}</span></td><td>{site_link(co)}</td><td class="num">{ev}</td><td class="num">{e}</td></tr>' for c,h,d,co,s,b,ev,e in TEAMS)
-        body = f"""<div class="reg-tools"><label class="search" for="team-search">Search by name, dog or credential<input id="team-search" type="search" placeholder="e.g. TSK9-2026-0001"></label><div class="chips">{chips}</div></div>
-<div class="table-scroll"><table id="team-table"><thead><tr><th>Credential</th><th>Handler</th><th>Dog</th><th>Company</th><th>State</th><th>Website</th><th>Field evaluation</th><th>Valid through</th></tr></thead><tbody>{tr}</tbody></table></div>
+        body = f"""<div class="reg-tools"><label class="search" for="team-search">Search by name, dog or team #<input id="team-search" type="search" placeholder="e.g. TSK9-2026-6290"></label><div class="chips">{chips}</div></div>
+<div class="table-scroll"><table id="team-table"><thead><tr><th>Team #</th><th>Handler</th><th>Dog</th><th>Company</th><th>State</th><th>Website</th><th>Field evaluation</th><th>Valid through</th></tr></thead><tbody>{tr}</tbody></table></div>
 <p class="empty" id="team-empty" hidden>No current team matches that search.</p>
 <div class="note-box" id="grandfather"><h3><span class="fy">&dagger;</span> Founding-year policy</h3><p>During the Council's 2026&ndash;27 founding year, teams that already held a current bed bug detection certification from a recognized certifying body, based on a passed blind field evaluation, are listed with their permission. Their listing runs 12 months from that field evaluation. To renew, every team must pass a Tri-State K9 field evaluation directly.</p></div>"""
     else:
