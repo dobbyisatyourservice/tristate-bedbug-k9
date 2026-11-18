@@ -331,3 +331,5 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .state-row{font-size:.9rem;margin-top:-2px}
 .form-sub{font-size:1rem;margin:10px 0 -4px;padding-top:14px;border-top:1px solid var(--line, #ddd)}
 .head-cta{white-space:nowrap}.brand small{white-space:nowrap}
+.callout-verify{display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}.callout-verify h2{margin:4px 0 8px}.callout-verify p:last-child{max-width:62ch}
+.callout-verify .btn{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}.callout-verify .btn:hover{opacity:.9}.callout-verify .eyebrow{color:color-mix(in srgb,var(--on-ink) 72%,var(--ink))}

@@ -155,6 +155,7 @@ def page_home(m):
 <a class="feature" href="{L(m,'certified')}"><span class="eyebrow">Hiring a K9 inspector?</span><h2>Verify a team</h2><p>Look up a handler's credential number, the dog's name and the date the certification expires before you book an inspection.</p><span class="arrow">Search the registry</span></a>
 <a class="feature feature-alt" href="{L(m,'apply')}"><span class="eyebrow">Handlers &amp; companies</span><h2>Get your team certified</h2><p>Book a blind field evaluation with a Council evaluator in New York, New Jersey or Connecticut.</p><span class="arrow">Start an application</span></a>
 </section>
+<section class="wrap section-tight"><div class="callout callout-verify"><div><p class="eyebrow">New in New York City</p><h2>In-field K9 verification</h2><p>Property managers, hotels and city organizations: before a K9 team works in your buildings, a Council evaluator can test that team on site, at your property, with blind live bed bug hides.</p></div><a class="btn" href="{L(m,'verify')}">Request a verification</a></div></section>
 
 <section class="wrap section about">
 <div class="about-text">
@@ -382,7 +383,9 @@ FAQ = [
     ("What if my team doesn't pass?",
      "You can retest after a 14-day wait. Appeals about how an evaluation was run can be sent through the contact form."),
     ("How do I verify a team before I hire them?",
-     "Search the Certified Teams registry by handler, dog or team number. Every current team is listed with its field evaluation date and expiration. If a team isn't listed, its Tri-State K9 credential is not current."),
+     "Search the Certified Teams registry by handler, dog or team number. Every current team is listed with its field evaluation date and expiration. If a team isn't listed, its Tri-State K9 credential is not current. In New York City you can also request an in-field verification, where a Council evaluator tests the team at your property."),
+    ("What is in-field verification?",
+     "It's a service for property managers, landlords, co-op and condo boards, hotels and New York City organizations. If you're hiring or already working with a bed bug K9 team, a Council evaluator tests that team on site at your property, using blind hides of live bed bugs and distractors in sealed containers that are removed afterward. You get a written result. Any team can be verified, whether or not it's in our registry."),
     ("Does the Council train dogs or sell inspections?",
      "No. We write the standard, train evaluators, run evaluations and publish the results. If you're looking for a trainer, ask for our approved trainer list through the contact form."),
     ("Which areas do you cover?",
