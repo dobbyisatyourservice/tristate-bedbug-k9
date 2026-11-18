@@ -364,7 +364,7 @@ def page_faq(m):
 
 import html as _html
 POST_DIR = ROOT / "content" / "posts"
-CAT_ORDER = ["Press release", "For property managers", "Law and compliance", "Hotels and dorms", "Standards", "Local insight"]
+CAT_ORDER = ["Press release", "For property managers", "Law and compliance", "New Jersey", "Connecticut", "Hotels and dorms", "Standards", "Local insight"]
 
 def _load_posts():
     posts = []
