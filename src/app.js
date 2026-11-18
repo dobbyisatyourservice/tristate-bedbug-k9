@@ -33,7 +33,7 @@
   // registry search + state filter
   var table=document.getElementById('team-table');
   if(table){
-    var q=document.getElementById('team-search'), chips=document.querySelectorAll('.chip'), empty=document.getElementById('team-empty'), state='ALL';
+    var q=document.getElementById('team-search'), chips=document.querySelectorAll('.reg-tools .chip'), empty=document.getElementById('team-empty'), state='ALL';
     var run=function(){
       var term=(q.value||'').trim().toLowerCase(), shown=0;
       table.querySelectorAll('tbody tr').forEach(function(r){
@@ -53,4 +53,13 @@
   var seen=false; try{seen=localStorage.getItem('tsk9-cookie-ok')==='1';}catch(e){}
   if(!seen)c.hidden=false;
   document.getElementById('cookie-ok').addEventListener('click',function(){c.hidden=true;try{localStorage.setItem('tsk9-cookie-ok','1');}catch(e){}});
+})();
+(function(){
+  var g=document.getElementById('post-grid'); if(!g)return;
+  var chips=document.querySelectorAll('.post-filter .chip');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    var cat=c.getAttribute('data-cat');
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false');});
+    g.querySelectorAll(':scope>div').forEach(function(d){d.hidden=!(cat==='All'||d.getAttribute('data-cat')===cat);});
+  });});
 })();

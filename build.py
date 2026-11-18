@@ -74,11 +74,8 @@ PAGES = [
     ("resources", "resources.html", "Resources"),
     ("contact", "contact.html", "Contact"),
     ("privacy", "privacy.html", "Privacy & cookies"),
-    ("post-verify", "resources-verify-a-bed-bug-dog.html", "How to verify a bed bug K9 team"),
-    ("post-evaluation", "resources-what-happens-at-an-evaluation.html", "What happens at a field evaluation"),
-    ("post-single-odor", "resources-why-bed-bug-only-dogs.html", "Why bed-bug-only dogs"),
 ]
-NAV_HIDE = {"privacy", "post-verify", "post-evaluation", "post-single-odor"}
+NAV_HIDE = {"privacy"}
 
 DESC = {
     "home": "Independent bed bug scent detection certification for K9 teams in New York, New Jersey and Connecticut. Dogs are tested on live bed bug odor only.",
@@ -89,9 +86,6 @@ DESC = {
     "contact": "Contact the Tri-State Bed Bug K9 Council about bed bug scent detection certification.",
     "faq": "Answers about bed bug K9 certification: field evaluations, pass criteria, fees, credential renewal and verifying a team in NY, NJ and CT.",
     "resources": "Guides and articles on bed bug scent detection, K9 field evaluations and hiring a certified bed bug dog team.",
-    "post-verify": "How to check that a bed bug K9 team is certified and current before you hire them: team numbers, registry checks and dates.",
-    "post-evaluation": "What to expect at a bed bug K9 field evaluation: hides, distractors, search time, scoring and retests.",
-    "post-single-odor": "Why the Tri-State Bed Bug K9 Council certifies only dogs trained on bed bug odor alone.",
     "privacy": "How the Tri-State Bed Bug K9 Council handles form submissions and cookies.",
 }
 
@@ -368,50 +362,77 @@ def page_faq(m):
 <section class="wrap section-tight two-col"><div class="faq">{items}</div>
 <aside class="side-list"><h3>Still have a question?</h3><p class="muted">Send it through our contact form and we'll reply within two business days.</p><a class="btn" href="{L(m,'contact')}">Contact us</a><a class="btn btn-ghost" href="{L(m,'apply')}">Request an evaluation</a></aside></section>"""
 
-POSTS = [
-    ("post-verify", "resources-verify-a-bed-bug-dog.html", "How to verify a bed bug K9 team before you hire", "Nov 17, 2026", "For property managers", 4,
-     "A dog's alert can decide whether a building gets treated. Here's how to check that the team at your door is certified and current.",
-     [("Ask for the team number", "Every certified team has a Tri-State K9 team number in the format TSK9-YYYY-NNNN. A legitimate team will share it without hesitation. Write it down along with the handler's name and the dog's name."),
-      ("Check it in the registry", "Search the number, handler or dog on our Certified Teams page. Confirm that the handler and the dog both match. A credential belongs to one handler and one dog together, so a different dog or a different handler is not covered."),
-      ("Look at the dates", "Each listing shows the field evaluation date and the valid-through date. Credentials last 12 months. If the date has passed, or the team isn't listed at all, the credential is not current."),
-      ("Ask how alerts are confirmed", "A good handler will explain how they confirm an alert before recommending treatment, such as a visual inspection of the area the dog indicated. Be cautious of anyone who treats a single unconfirmed alert as proof of an infestation."),
-      ("When in doubt, ask us", "If something doesn't match, or you want to report a concern about a team, use our contact form. We review every report.")]),
-    ("post-evaluation", "resources-what-happens-at-an-evaluation.html", "What happens at a bed bug K9 field evaluation", "Nov 17, 2026", "For handlers", 5,
-     "A step-by-step look at test day, so you and your dog know exactly what to expect.",
-     [("Before you arrive", "Evaluators prepare the building at least 30 minutes ahead. They place two live bed bug hides of 5 to 15 bugs each in separate rooms, and two distractors chosen by the chief evaluator. You never see where anything goes."),
-      ("The briefing", "You'll declare your dog's alert style, passive or active, and confirm the search time. The standard is 15 minutes, adjusted for building size and agreed before you start."),
-      ("The search", "Your team searches at least four rooms. Two evaluators watch every search. When your dog alerts, call it. The dog must alert at the source, and each alert is confirmed by a reward or by your call."),
-      ("Scoring", "To pass, your dog must find both live hides with no more than one false response. An alert on a distractor is an automatic fail, because a dog that alerts on the wrong odor in a test will do it in a client's home."),
-      ("After the test", "Passing teams are added to the public registry with their evaluation date. If you don't pass, you can retest after 14 days.")]),
-    ("post-single-odor", "resources-why-bed-bug-only-dogs.html", "Why we only certify bed-bug-only dogs", "Nov 17, 2026", "Standards", 3,
-     "Some detection dogs are trained on several odors. Here's why the Council certifies dogs trained on bed bugs alone.",
-     [("One odor, one answer", "When a bed-bug-only dog alerts, there is only one thing it can be telling you. A dog trained on several target odors gives the same alert for each of them, so the handler can't be certain which odor the dog found."),
-      ("Clients need certainty", "A bed bug alert can lead to treatment, lost rent, or a hotel room taken out of service. Clients deserve to know the alert means bed bugs, not something else the dog was also trained to find."),
-      ("A clear standard", "Keeping certification to a single odor keeps the test simple and the results comparable. Every certified team in our registry has been tested the same way, on live bed bugs, under the same rules."),
-      ("What this means for you", "If your dog is trained on more than one target odor, it isn't eligible for Tri-State K9 certification. If you're unsure, contact us before you apply and we'll help you check.")]),
-]
+import html as _html
+POST_DIR = ROOT / "content" / "posts"
+CAT_ORDER = ["Press release", "For property managers", "Law and compliance", "Hotels and dorms", "Standards", "Local insight"]
+
+def _load_posts():
+    posts = []
+    for f in sorted(POST_DIR.glob("*.md")):
+        raw = f.read_text()
+        _, fm, body = raw.split("---\n", 2)
+        meta = {}
+        for line in fm.strip().splitlines():
+            k, _, v = line.partition(":"); meta[k.strip()] = v.strip()
+        assert meta["slug"] == f.stem, f"file name must match slug: {f.name}"
+        blocks = [b.strip() for b in body.strip().split("\n\n") if b.strip()]
+        meta["html"] = "".join(f"<h2>{_html.escape(b[3:])}</h2>" if b.startswith("## ") else f"<p>{_html.escape(b)}</p>" for b in blocks)
+        meta["words"] = len(body.split())
+        meta["mins"] = max(2, round(meta["words"] / 200))
+        meta["sources"] = [x.split("|", 1) for x in meta.get("sources", "").split(" || ") if x]
+        meta["key"] = "post-" + meta["slug"]
+        meta["fn"] = meta["slug"] + ".html"
+        posts.append(meta)
+    posts.sort(key=lambda m: (CAT_ORDER.index(m["category"]) if m["category"] in CAT_ORDER else 99, m["title"]))
+    return posts
+
+POSTS = _load_posts()
+for _m in POSTS:
+    PAGES.append((_m["key"], _m["fn"], _m["title"]))
+    NAV_HIDE.add(_m["key"])
+    DESC[_m["key"]] = _m["description"]
+
+def _post_meta(m):
+    date = f'<span>{_html.escape(m["date"])}</span>' if m.get("show_date", "").lower() in ("true", "yes") else ""
+    return f'<p class="post-meta"><span class="tag">{_html.escape(m["category"])}</span>{date}<span>{m["mins"]} min read</span></p>'
 
 def page_resources(m):
-    cards = "".join(f"""<article class="post-card"><p class="post-meta"><span class="tag">{cat}</span><span>{d} &middot; {mins} min read</span></p>
-<h3><a href="{L(m,k)}">{t}</a></h3><p class="muted">{ex}</p><a class="more" href="{L(m,k)}">Read article &rarr;</a></article>""" for k, fn, t, d, cat, mins, ex, _ in POSTS)
-    return f"""<section class="wrap page-head"><p class="eyebrow">Resources</p><h1>Articles &amp; guides</h1>
-<p class="lede">Practical guides on bed bug scent detection, field evaluations and hiring a certified K9 team in New York, New Jersey and Connecticut.</p></section>
-<section class="wrap section-tight"><div class="post-grid">{cards}</div></section>"""
+    feat = [p for p in POSTS if p.get("type") == "press"]
+    rest = [p for p in POSTS if p.get("type") != "press"]
+    def card(p):
+        return f"""<article class="post-card">{_post_meta(p)}<h3><a href="{L(m,p['key'])}">{_html.escape(p['title'])}</a></h3><p class="muted">{_html.escape(p['description'])}</p><a class="more" href="{L(m,p['key'])}">Read article &rarr;</a></article>"""
+    feat_html = "".join(f"""<article class="post-feature">{_post_meta(p)}<h2><a href="{L(m,p['key'])}">{_html.escape(p['title'])}</a></h2><p class="muted">{_html.escape(p['description'])}</p><a class="btn btn-sm" href="{L(m,p['key'])}">Read the announcement</a></article>""" for p in feat)
+    chips = "".join(f'<button type="button" class="chip" data-cat="{c}" aria-pressed="{"true" if c=="All" else "false"}">{c}</button>' for c in ["All"] + [c for c in CAT_ORDER if c != "Press release" and any(p["category"] == c for p in rest)])
+    cards = "".join(f'<div data-cat="{_html.escape(p["category"])}">{card(p)}</div>' for p in rest)
+    return f"""<section class="wrap page-head"><p class="eyebrow">Resources</p><h1>Bed bug K9 guides for New York</h1>
+<p class="lede">Practical guides on bed bug detection dogs, certified canine inspections and bed bug compliance for property managers, landlords, hotels and housing offices in New York City, New Jersey and Connecticut.</p></section>
+<section class="wrap section-tight">{feat_html}<div class="chips post-filter">{chips}</div><div class="post-grid" id="post-grid">{cards}</div></section>"""
 
-def make_post(post):
-    k, fn, t, d, cat, mins, ex, body = post
+def make_post(p):
     def build(m):
-        secs = "".join(f"<h3>{h}</h3><p>{p}</p>" for h, p in body)
-        return f"""<section class="wrap page-head"><p class="eyebrow"><a href="{L(m,'resources')}">Resources</a></p><h1>{t}</h1>
-<p class="post-meta"><span class="tag">{cat}</span><span>{d} &middot; {mins} min read &middot; {P['org']}</span></p>
-<p class="lede">{ex}</p></section>
-<section class="wrap section-tight two-col"><article class="doc post-body">{secs}</article>
-<aside class="side-list"><h3>More articles</h3><ul class="doc-list">{''.join(f'<li><a href="{L(m,k2)}">{t2}</a></li>' for k2,_,t2,*_ in POSTS if k2 != k)}</ul><a class="btn btn-ghost" href="{L(m,'resources')}">All resources</a></aside></section>"""
+        related = [q for q in POSTS if q["key"] != p["key"] and q["category"] == p["category"]][:3] or [q for q in POSTS if q["key"] != p["key"]][:3]
+        src = ""
+        if p["sources"]:
+            src = '<div class="sources"><h3>Sources</h3><ul>' + "".join(f'<li><a class="ext" href="{u}" target="_blank" rel="noopener">{_html.escape(t)}</a></li>' for u, t in p["sources"]) + "</ul><p class=\"muted\">General information, not legal advice. Rules change, so confirm current requirements with the agency or an attorney.</p></div>"
+        return f"""<section class="wrap page-head"><p class="eyebrow"><a href="{L(m,'resources')}">Resources</a></p><h1>{_html.escape(p['title'])}</h1>
+{_post_meta(p)}<p class="lede">{_html.escape(p['description'])}</p></section>
+<section class="wrap section-tight two-col"><article class="doc post-body">{p['html']}{src}
+<div class="post-cta"><h3>Verify a team before you hire</h3><p>Search the public registry of certified bed bug K9 teams in New York, New Jersey and Connecticut.</p><a class="btn" href="{L(m,'certified')}">Search certified teams</a></div></article>
+<aside class="side-list"><h3>Related guides</h3><ul class="doc-list">{''.join(f'<li><a href="{L(m,q["key"])}">{_html.escape(q["title"])}</a></li>' for q in related)}</ul><a class="btn btn-ghost" href="{L(m,'resources')}">All resources</a></aside></section>"""
     return build
+
+def post_ld(p):
+    url = f"https://{P['domain']}/{p['fn']}"
+    org = {"@type": "Organization", "name": P["org"], "url": f"https://{P['domain']}/", "logo": f"https://{P['domain']}/logo.png"}
+    return json.dumps({"@context": "https://schema.org", "@type": "NewsArticle" if p.get("type") == "press" else "BlogPosting",
+        "headline": p["title"], "description": p["description"], "keywords": p["keywords"], "datePublished": p["date"], "dateModified": p["date"],
+        "author": org, "publisher": org, "mainEntityOfPage": url, "url": url, "image": f"https://{P['domain']}/og-image.png",
+        "articleSection": p["category"], "wordCount": p["words"], "inLanguage": "en-US",
+        "about": ["Bed bug detection dogs", "K9 certification", "New York City"], "spatialCoverage": "New York City, New Jersey, Connecticut"})
 
 BUILDERS = {"home": page_home, "events": page_events, "standards": page_standards, "apply": page_apply,
             "certified": page_certified, "board": page_board, "contact": page_contact, "privacy": page_privacy,
-            "faq": page_faq, "resources": page_resources, **{p[0]: make_post(p) for p in POSTS}}
+            "faq": page_faq, "resources": page_resources, **{p["key"]: make_post(p) for p in POSTS}}
 
 CSS = (ROOT / "src" / "styles.css").read_text()
 JS = (ROOT / "src" / "app.js").read_text()
@@ -433,7 +454,12 @@ def build_site():
         url = f"https://{P['domain']}/" + ("" if key == "home" else fn)
         desc = DESC.get(key, DESC["home"])
         ld = ""
-        if key == "home":
+        _pm = next((q for q in POSTS if q["key"] == key), None)
+        if _pm:
+            ld = '<meta name="keywords" content="' + _html.escape(_pm["keywords"]) + '"><script type="application/ld+json">' + post_ld(_pm) + '</script>'
+        elif key == "faq":
+            ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in FAQ]}) + '</script>'
+        elif key == "home":
             ld = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":P["org"],"alternateName":P["short"],"url":f"https://{P['domain']}/","logo":f"https://{P['domain']}/logo.png","description":DESC["home"],"areaServed":[{"@type":"State","name":n} for n in ("New York","New Jersey","Connecticut")]}) + '</script>'
         html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title><meta name="description" content="{desc}">

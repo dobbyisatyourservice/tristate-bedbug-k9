@@ -313,3 +313,18 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .eyebrow a{color:inherit}
 @media (max-width:900px){.post-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:640px){.post-grid{grid-template-columns:1fr}.faq-item{padding:0 16px}.faq-item summary{font-size:.98rem}}
+.post-feature{background:var(--ink);color:var(--on-ink);border-radius:14px;padding:28px;display:grid;gap:12px;margin-bottom:8px}
+.post-feature h2 a{color:var(--on-ink);text-decoration:none}
+.post-feature .muted{color:color-mix(in srgb,var(--on-ink) 75%,transparent)}
+.post-feature .post-meta{color:color-mix(in srgb,var(--on-ink) 70%,transparent)}
+.post-feature .btn{background:var(--on-ink);color:var(--ink);justify-self:start}
+.post-filter{margin:6px 0 4px}
+.post-grid>div{display:grid}
+.post-grid>div[hidden]{display:none}
+.post-body h2{font-size:1.4rem;margin-top:18px}
+.sources{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.sources ul{margin:6px 0 10px;padding-left:18px;display:grid;gap:4px}
+.sources a.ext{white-space:normal}
+.post-cta{margin-top:22px;padding:20px 22px;border-radius:12px;background:var(--tint);border:1px solid var(--line);display:grid;gap:10px}
+.post-cta p{margin:0}
+.post-cta .btn{justify-self:start}
