@@ -344,3 +344,8 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .stat-row dt{color:var(--ink-2);font-weight:500;font-size:.9rem}
 .stat-row dd{margin:0;font:800 2rem/1 var(--f-display);font-variant-numeric:tabular-nums}
 @media (max-width:640px){.indep{grid-template-columns:1fr}.stat-row{grid-template-columns:1fr 1fr;row-gap:8px}}
+.indep{grid-template-columns:1fr;gap:0;border-top:1px solid var(--line)}
+.indep li{grid-template-columns:auto 1fr;column-gap:16px;row-gap:2px;padding:16px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;align-items:baseline}
+.indep li::before{grid-row:span 2;align-self:center;width:6px;height:28px}
+.indep strong{grid-column:2}.indep span{grid-column:2}
+.indep li::before{grid-row:1 / 3;grid-column:1;align-self:stretch;height:auto;width:4px;background:linear-gradient(180deg,var(--ny),var(--nj),var(--ct))}
