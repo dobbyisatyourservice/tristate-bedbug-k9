@@ -375,7 +375,7 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .nyc-faq{max-width:860px}
 #request{scroll-margin-top:90px}
 .req{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);box-shadow:0 1px 2px rgba(10,20,40,.04),0 24px 48px -28px rgba(10,20,40,.28)}
-.req-side{position:relative;background:var(--ink);color:var(--on-ink);padding:44px 40px;display:flex;flex-direction:column;gap:22px}
+.req-side{--on-ink:#fff;position:relative;background:#0c1b2e;color:#fff;padding:44px 40px;display:flex;flex-direction:column;gap:22px}
 .req-side::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--ny) 0 33.3%,var(--nj) 33.3% 66.6%,var(--ct) 66.6%)}
 .req-side .eyebrow{color:color-mix(in srgb,var(--on-ink) 75%,transparent)}
 .req-side h2{color:var(--on-ink);font-size:clamp(1.5rem,2.4vw,1.95rem);line-height:1.15;margin:0}
@@ -400,3 +400,6 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 .req-submit p{margin:0;font-size:.88rem;color:var(--ink-2)}
 @media (max-width:900px){.req{grid-template-columns:1fr}.req-side{padding:36px 24px}.req-main{padding:32px 20px}.nyc-facts{grid-template-columns:1fr 1fr}.nyc-facts > div:nth-child(3){border-left:0}.nyc-facts > div:nth-child(n+3){border-top:1px solid var(--line)}}
 @media (max-width:560px){.req-submit .btn{width:100%;justify-content:center}.nyc-facts{grid-template-columns:1fr}.nyc-facts > div{border-left:0}.nyc-facts > div + div{border-top:1px solid var(--line)}}
+
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .req-side{background:#1a2d4a}}
+:root[data-theme="dark"] .req-side{background:#1a2d4a}
