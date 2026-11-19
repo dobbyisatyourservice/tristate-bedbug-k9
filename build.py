@@ -592,6 +592,7 @@ def make_post(p):
 
 BADGES_ENABLED = False
 INDEXNOW_KEY = "7f3c9a2e5b1d4e8fa6c0b9d2e4f1a3c5"
+GSC_FILE = "google343e4df1459b6631"
 def cu(fn):
     """clean public URL path (Netlify Pretty URLs serves pages without .html)"""
     return "" if fn == "index.html" else fn.removesuffix(".html")
@@ -714,6 +715,9 @@ def build_site():
     (out / "404.html").write_text(_h)
     # IndexNow: key file, plus a ping from the Netlify build so Bing/Yandex re-crawl after each deploy
     (out / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY)
+    # Google Search Console ownership file (URL-prefix property). Keep it, or the site loses verification.
+    (out / f"{GSC_FILE}.html").write_text(f"google-site-verification: {GSC_FILE}.html")
+    (out / f"{GSC_FILE}.txt").write_text(f"google-site-verification: {GSC_FILE}.html")
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: https://{P['domain']}/sitemap.xml\n")
     llms = [f"# {P['org']}", "", f"> {DESC['home']} The Council runs blind field evaluations on live bed bugs, publishes a public registry of certified K9 teams, and offers in-field verification of K9 teams for New York City property managers, hotels and organizations.", "",
         "Key facts:", "- Coverage: New York, New Jersey and Connecticut. In-field verification program focused on New York City.",

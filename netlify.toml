@@ -2,6 +2,13 @@
   publish = "site"
   command = "python3 build.py"
 
+# Serve the Google verification file as-is (no Pretty URL redirect)
+[[redirects]]
+  from = "/google343e4df1459b6631.html"
+  to = "/google343e4df1459b6631.txt"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/tri-state-bed-bug-k9-council-launches-nyc*"
   to = "/tri-state-bed-bug-k9-council-launches"
