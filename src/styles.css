@@ -403,3 +403,4 @@ a.ext::after{content:" \2197";font-size:.8em;opacity:.7}
 
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .req-side{background:#1a2d4a}}
 :root[data-theme="dark"] .req-side{background:#1a2d4a}
+.foot-base a{color:inherit;text-decoration:underline;text-underline-offset:2px}.foot-base a:hover{color:var(--on-ink)}

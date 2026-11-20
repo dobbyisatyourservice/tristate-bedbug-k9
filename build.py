@@ -131,7 +131,7 @@ def footer(mode):
 <div><h4>Council</h4><ul><li><a href="{L(mode,'standards')}">Standards &amp; by-laws</a></li><li><a href="{L(mode,'events')}">Event calendar</a></li><li><a href="{L(mode,'faq')}">FAQ</a></li><li><a href="{L(mode,'resources')}">Resources</a></li></ul></div>
 <div><h4>Teams</h4><ul><li><a href="{L(mode,'apply')}">Request an evaluation</a></li><li><a href="{L(mode,'certified')}">Search the registry</a></li><li><a href="{L(mode,'verify')}">Request a field verification</a></li><li><a href="{L(mode,'nyc')}">NYC bed bug dog verification</a></li></ul></div>
 <div><h4>Contact</h4><p class="sel">Questions? Use the <a href="{L(mode,'contact')}">contact form</a>.</p><ul><li><a href="{L(mode,'privacy')}">Privacy &amp; cookies</a></li></ul></div>
-</div><div class="wrap foot-base"><span>&copy; {P['year']} {P['org']}. All rights reserved.</span><span>{P['domain']}</span></div></footer>"""
+</div><div class="wrap foot-base"><span>&copy; {P['year']} {P['org']}. All rights reserved.</span><span class="foot-cookie">Cookies: essential only, no advertising or tracking. <a href="{L(mode,'privacy') + ('#cookies' if mode=='site' else '')}">Cookie details</a></span><span>{P['domain']}</span></div></footer>"""
 
 # ---------------------------------------------------------------- pages
 def page_home(m):
@@ -461,7 +461,7 @@ def page_privacy(m):
 <section class="wrap section-tight"><article class="doc">
 <h3>Information you send us</h3><p>When you submit the evaluation request or contact form, we receive what you type: typically your name, email, phone number, company and details about your K9 team. We use it only to respond, schedule evaluations and maintain the certified team registry. We do not sell or rent it.</p>
 <h3>Public registry</h3><p>For certified teams, the registry shows the credential number, handler name, dog name, company, state, company website and certification dates, so clients can verify a team. Teams may contact us through the contact form to correct a listing.</p>
-<h3>Cookies</h3><p>This site does not use advertising or tracking cookies. It uses only what is strictly necessary to work: your browser remembers that you dismissed the cookie notice, and our hosting provider may set technical cookies to keep forms secure and prevent spam. Fonts are loaded from Google Fonts, which receives your IP address to deliver them.</p>
+<h3 id="cookies">Cookies</h3><p>This site does not use advertising or tracking cookies. It uses only what is strictly necessary to work: your browser remembers that you dismissed the cookie notice, and our hosting provider may set technical cookies to keep forms secure and prevent spam. Fonts are loaded from Google Fonts, which receives your IP address to deliver them.</p>
 <h3>Where data is stored</h3><p>Form submissions are processed and stored by our website host, Netlify, and forwarded to the Council by email.</p>
 <h3>Your choices</h3><p>You can ask us to see, correct or delete information you sent by using the <a href="{L(m,'contact')}">contact form</a>. You can clear or block cookies in your browser settings at any time.</p>
 <p class="muted">Last updated November 2026.</p>
